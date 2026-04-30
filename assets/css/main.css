@@ -3760,6 +3760,47 @@ input, select, textarea {
 
 		}
 
+/* Container to center the phone on the page */
+.iphone-mockup {
+    position: relative;
+    width: 280px; /* Width of the phone */
+    height: 560px; /* Height of the phone */
+    margin: 20px auto;
+    border: 12px solid #222; /* The phone frame */
+    border-radius: 36px;
+    background: #000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+/* Creating the iPhone 'Notch' */
+.iphone-mockup::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 25px;
+    background: #222;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    z-index: 10;
+}
+
+/* Ensuring the video fills the 'screen' */
+.iphone-screen {
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+
+.iphone-screen iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 /* Wrapper */
 
 	#wrapper {
