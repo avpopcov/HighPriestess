@@ -1,40 +1,153 @@
-<!DOCTYPE HTML>
-<!--
-	Stellar by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Vakarė</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="lt" class="scroll-smooth">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Vakarė | UGC Creator & Actor Portfolio</title>
+   <!-- Tailwind CSS per CDN -->
+   <script src="https://cdn.tailwindcss.com"></script>
+   <!-- Google Fonts: Plus Jakarta Sans (modernus sans-serif) ir Playfair Display (elegantiškas serif) -->
+   <link rel="stylesheet" href="assets/css/main.css" />
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+   <!-- Font Awesome piktogramoms -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
-				
-				<!-- Nav -->
-					<nav id="nav">
-						<ul>
-							<li><a href="#intro" class="active">Intro</a></li>
-							<li><a href="#first">About Me</a></li>
-							<li><a href="#second">Workflow</a></li>
-							<li><a href="#cta">Contact</a></li>
-						</ul>
-					</nav>
 
-				<!-- Header -->
-					<header id="header" class="alt">
-						<h1>Vakare Baltauskaite</h1>
-						<h2>Professional Actor, Model & Artist</h2>
-						<!-- The iPhone Mockup Wrapper -->
-						<div class="iphone-mockup">
+   <!-- Tailwind spalvų konfigūracija priderinta prie jūsų pageidavimų -->
+   <script>
+       tailwind.config = {
+           theme: {
+               extend: {
+                   colors: {
+                       champagne: {
+                           light: '#FAF7F2',    /* Šviesiausia šampano fono spalva */
+                           DEFAULT: '#F4ECE1',  /* Vidutinė šampano spalva blokams */
+                           dark: '#EADFCF',     /* Tamsesnė šešėliams/rėmeliams */
+                       },
+                       wine: {
+                           light: '#8A2534',    /* Šviesesnė raudono vyno (hover būsenai) */
+                           DEFAULT: '#5E131E',  /* Pagrindinė raudono vyno spalva mygtukams */
+                           dark: '#450B14',     /* Tamsi vyno spalva tekstams */
+                       },
+                       charcoal: '#221F1D',     /* Švelni juoda tekstui */
+                   },
+                   fontFamily: {
+                       sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                       serif: ['"Playfair Display"', 'serif'],
+                   }
+               }
+           }
+       }
+   </script>
+
+
+   <style>
+       /* Sklandus akordeono išskleidimo efektas */
+       .accordion-content {
+           transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+       }
+      
+       /* Begalinio judėjimo animacija prekių ženklų logotipams */
+       @keyframes marquee {
+           0% { transform: translateX(0%); }
+           100% { transform: translateX(-50%); }
+       }
+       .animate-marquee {
+           display: flex;
+           width: max-content;
+           animation: marquee 25s linear infinite;
+       }
+       .animate-marquee:hover {
+           animation-play-state: paused;
+       }
+   </style>
+</head>
+<body class="bg-champagne-light text-charcoal font-sans antialiased">
+
+
+   <!-- NAVIGACIJA -->
+   <nav class="sticky top-0 z-50 bg-champagne-light/90 backdrop-blur-md border-b border-champagne-dark/30">
+       <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+           <!-- LOGO -->
+           <a href="#" class="font-extrabold text-lg tracking-wider text-wine">
+               Vakarė <span class="font-light text-charcoal">| UGC</span>
+           </a>
+          
+           <!-- MENU -->
+           <div class="hidden lg:flex items-center space-x-8 font-medium text-xs tracking-wider uppercase">
+               <a href="#" class="hover:text-wine transition">Home</a>
+               <a href="#about" class="hover:text-wine transition">About me</a>
+               <a href="#workflow" class="hover:text-wine transition">Workflow</a>
+               <a href="#videos" class="hover:text-wine transition">Videos</a>
+               <a href="#photos" class="hover:text-wine transition">Photos</a>
+               <!-- Actor Page Nuoroda (pakeiskite href į savo kitą svetainę) -->
+               <a href="https://example.com/actor" target="_blank" class="hover:text-wine transition flex items-center gap-1">
+                   Actor page <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+               </a>
+               <!-- Creative Nuoroda (pakeiskite href į savo kitą svetainę) -->
+               <a href="https://example.com/creative" target="_blank" class="hover:text-wine transition flex items-center gap-1">
+                   Creative <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+               </a>
+               <a href="#faq" class="hover:text-wine transition">FAQ</a>
+              
+               <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white px-5 py-2.5 rounded-full hover:bg-wine-light transition font-semibold shadow-md shadow-wine/10 normal-case tracking-normal">
+                   Email me
+               </a>
+           </div>
+          
+           <!-- Mobilus Meniu Mygtukas -->
+           <div class="lg:hidden">
+               <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white px-4 py-2 rounded-full text-xs hover:bg-wine-light transition font-semibold">
+                   Email me
+               </a>
+           </div>
+       </div>
+   </nav>
+
+
+   <!-- HERO SEKCIJA -->
+   <section class="max-w-6xl mx-auto px-6 pt-12 pb-24 md:py-28 flex flex-col-reverse md:flex-row items-center gap-16">
+       <!-- TEKSTINĖ DALIS -->
+       <div class="flex-1 text-center md:text-left space-y-6">
+           <div class="inline-flex items-center gap-2 bg-champagne px-4 py-2 rounded-full border border-champagne-dark/50">
+               <span class="w-2 h-2 rounded-full bg-wine animate-pulse"></span>
+               <span class="text-[10px] font-bold tracking-widest text-wine uppercase">UGC CREATOR & ACTOR</span>
+           </div>
+          
+           <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-charcoal leading-tight">
+               Vakarė Balta <br>
+               <span class="font-serif italic font-normal text-wine">Turinys sustabdantis naršymą.</span>
+           </h1>
+          
+           <p class="text-base text-charcoal/80 leading-relaxed max-w-lg">
+               Combining 5+ years of marketing and performing arts with storytelling and creative direction, I deliver engaging, high-conversion UGC rooted in aesthetic, lived-in visuals.
+           </p>
+           <p class="text-sm text-charcoal/60 leading-relaxed max-w-lg">
+               With a sharp creative instinct and a detail-driven approach, I help beauty, lifestyle, wellness, and tech brands turn their vision into content that connects – and converts.
+           </p>
+          
+           <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+               <a href="#videos" class="bg-wine text-white text-center font-bold px-8 py-4 rounded-full hover:bg-wine-light transition shadow-lg shadow-wine/20 text-sm">
+                   Videos portfolio
+               </a>
+               <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-transparent border border-wine text-wine hover:bg-wine hover:text-white text-center font-bold px-8 py-4 rounded-full transition text-sm">
+                   Email me
+               </a>
+           </div>
+       </div>
+
+
+       <!-- NUOTRAUKOS RĖMELIS (Keičiama nuotrauka) -->
+       <div class="flex-1 flex justify-center">
+           <div class="relative group">
+               <!-- Foninis dekoratyvinis rėmelis -->
+               <div class="absolute inset-0 bg-champagne rounded-[2rem] transform translate-x-4 translate-y-4 border border-champagne-dark group-hover:translate-x-2 group-hover:translate-y-2 transition duration-300"></div>
+               <!-- Pagrindinis nuotraukos konteineris -->
+               <div class="relative w-72 md:w-80 rounded-[2rem] overflow-hidden border border-champagne-dark bg-champagne-dark shadow-xl">
+                   <!-- 🔴 ČIA ĮKELKITE SAVO PORTRETINĘ NUOTRAUKĄ (pakeiskite src nuorodą) -->
+                   <div class="iphone-mockup">
 							<div class="iphone-screen">
 								<iframe 
 									src="https://www.youtube.com/embed/pRtU7F-bJ_w?autoplay=0&rel=0" 
@@ -44,204 +157,561 @@
 								</iframe>
 							</div>
 						</div>
-						<section id="brands" class="main special">
-							<div class="brand-slider">
-								<div><img src="images/ellips_hair_vit.jpg" alt="ellips hair vitamins" /></div>
-								<div><img src="images/aconitum_logo.png.webp" alt="" /></div>
-								<div><img src="images/amortest.jpg" alt="" /></div>
-								<div><img src="images/Ausrines-logo-juoda.png.webp" alt="" /></div>
-								<div><img src="images/CITYSHEEP.png.webp" alt="" /></div>
-								<div><img src="images/coconut.png.webp" alt="" /></div>
-								<div><img src="images/Collistar.png" alt="" /></div>
-								<div><img src="images/herboxa_black.webp" alt="" /></div>
-								<div><img src="images/her_surprise.png" alt="" /></div>
-								<div><img src="images/IsaDora.png" alt="" /></div>
-								<div><img src="images/kakavos-romanas.png" alt="" /></div>
-								<div><img src="images/kong-stay.png" alt="" /></div>
-								<div><img src="images/kvapnus-papuosalai.jpeg" alt="" /></div>
-								<div><img src="images/air-guru.png" alt="" /></div>
-								<div><img src="images/lemuse.png" alt="" /></div>
-								<div><img src="images/Sweetroll.png.webp" alt="" /></div>
-								<div><img src="images/nauja-oda.png" alt="" /></div>
-								<div><img src="images/wosome.jpg.webp" alt="" /></div>
-								<div><img src="images/ziede.png" alt="" /></div>
-							</div>
-						</section>
-					</header>
-								
-				<!-- Main -->
-					<div id="main">
-					
-						<!-- Introduction -->
-							<section id="intro" class="main">
-								<div class="spotlight">
-									<div class="content">
-										<p>Combining 5+ years of marketing and performing arts with storytelling and<br />
-										creative direction, I deliver engaging, high-conversion UGC rooted in aesthetic,<br />
-										lived-in visuals.<br />
-										With a sharp creative instinct and a detail-driven approach, I help beauty,<br />
-										lifestyle, wellness, and tech brands turn their vision into content that connects<br />
-										—and converts.</p>
-										<ul class="actions">
-											<li><a href="generic.html" class="button">Learn More</a></li>
-										</ul>
-									</div>
-									<span class="image"><img src="images/pic01.jpg" alt="" /></span>
-								</div>
-							</section>
+               </div>
+           </div>
+       </div>
+   </section>
 
-						<!-- First Section -->
-							<section id="first" class="main special">
-								<header class="major">
-									<h2>About Me</h2>
-								</header>
-								<ul class="features">
-									<li>
-										<span class="icon solid major style1 fa-code"></span>
-										<h3>1. Vision & Briefing</h3>
-										<p>We align on your goals via a quick questionnaire, email, or a Zoom call. Whether you already have a strict brief and script, or need me to develop the creative concept and script from scratch—I’ve got you covered.</p>
-										</p>
-										</li>
-									<li>
-										<!-- The iPhone Mockup Wrapper -->
-										<span class="icon solid major style1 fa-code"></span>
-										<h3>2. Agreement & Deposit</h3>
-										<p>To lock in the project, we sign a contract, and a 50% upfront deposit is required. The remaining 50% is paid upon final approval of the content.</p>
-									</li>
-									<li>
-										<span class="icon major style5 fa-gem"></span>
-										<h3>Production & Delivery</h3>
-										<p>Turnaround: First drafts are delivered within 10 business days after receiving the products.<br />
-										Revisions: Included edits will be reviewed and adjusted to perfection.<br />
-										Delivery: Final high-quality files are sent via Google Drive or	WeTransfer.</p>
-									</li>
-								</ul>
-								<footer class="major">
-									<ul class="actions special">
-										<li><a href="generic.html" class="button">Learn More</a></li>
-									</ul>
-								</footer>
-							</section>
 
-						<!-- Second Section -->
-							<section id="second" class="main special">
-								<header class="major">
-									<h2>Ipsum consequat</h2>
-									<p>Donec imperdiet consequat consequat. Suspendisse feugiat congue<br />
-									posuere. Nulla massa urna, fermentum eget quam aliquet.</p>
-								</header>
-								<ul class="statistics">
-									<li class="style1">
-										<span class="icon solid fa-code-branch"></span>
-										<strong>5,120</strong> Etiam
-									</li>
-									<li class="style2">
-										<span class="icon fa-folder-open"></span>
-										<strong>8,192</strong> Magna
-									</li>
-									<li class="style3">
-										<span class="icon solid fa-signal"></span>
-										<strong>2,048</strong> Tempus
-									</li>
-									<li class="style4">
-										<span class="icon solid fa-laptop"></span>
-										<strong>4,096</strong> Aliquam
-									</li>
-									<li class="style5">
-										<span class="icon fa-gem"></span>
-										<strong>1,024</strong> Nullam
-									</li>
-								</ul>
-								<p class="content">Nam elementum nisl et mi a commodo porttitor. Morbi sit amet nisl eu arcu faucibus hendrerit vel a risus. Nam a orci mi, elementum ac arcu sit amet, fermentum pellentesque et purus. Integer maximus varius lorem, sed convallis diam accumsan sed. Etiam porttitor placerat sapien, sed eleifend a enim pulvinar faucibus semper quis ut arcu. Ut non nisl a mollis est efficitur vestibulum. Integer eget purus nec nulla mattis et accumsan ut magna libero. Morbi auctor iaculis porttitor. Sed ut magna ac risus et hendrerit scelerisque. Praesent eleifend lacus in lectus aliquam porta. Cras eu ornare dui curabitur lacinia.</p>
-								<footer class="major">
-									<ul class="actions special">
-										<li><a href="generic.html" class="button">Learn More</a></li>
-									</ul>
-								</footer>
-							</section>
+   <!-- PREKIŲ ŽENKLŲ LOGOTIPŲ TICKER'IS -->
+   <div class="w-full bg-champagne py-8 overflow-hidden border-y border-champagne-dark/40">
+       <div class="animate-marquee whitespace-nowrap flex items-center gap-16">
+           <!-- Pirmas logotipų rinkinys -->
+           <span class="text-charcoal/40 font-serif text-lg tracking-widest uppercase font-semibold">AKROPOLIS</span>
+           <span class="text-charcoal/40 font-sans text-xl tracking-widest uppercase font-black text-wine">ALTEYA organics</span>
+           <span class="text-charcoal/40 font-serif text-lg tracking-widest uppercase font-semibold">BEAUTY MAX</span>
+           <span class="text-charcoal/40 font-sans text-xl tracking-widest uppercase font-light">STARI</span>
+           <span class="text-charcoal/40 font-serif text-lg tracking-widest uppercase font-semibold">AKROPOLIS</span>
+           <span class="text-charcoal/40 font-sans text-xl tracking-widest uppercase font-black text-wine">ALTEYA organics</span>
+           <span class="text-charcoal/40 font-serif text-lg tracking-widest uppercase font-semibold">BEAUTY MAX</span>
+           <span class="text-charcoal/40 font-sans text-xl tracking-widest uppercase font-light">STARI</span>
+          
+           <!-- Pasikartojantis rinkinys tolygiam sukimuisi -->
+           <span class="text-charcoal/40 font-serif text-lg tracking-widest uppercase font-semibold">AKROPOLIS</span>
+           <span class="text-charcoal/40 font-sans text-xl tracking-widest uppercase font-black text-wine">ALTEYA organics</span>
+           <span class="text-charcoal/40 font-serif text-lg tracking-widest uppercase font-semibold">BEAUTY MAX</span>
+           <span class="text-charcoal/40 font-sans text-xl tracking-widest uppercase font-light">STARI</span>
+           <span class="text-charcoal/40 font-serif text-lg tracking-widest uppercase font-semibold">AKROPOLIS</span>
+           <span class="text-charcoal/40 font-sans text-xl tracking-widest uppercase font-black text-wine">ALTEYA organics</span>
+           <span class="text-charcoal/40 font-serif text-lg tracking-widest uppercase font-semibold">BEAUTY MAX</span>
+           <span class="text-charcoal/40 font-sans text-xl tracking-widest uppercase font-light">STARI</span>
+       </div>
+   </div>
 
-						<!-- Get Started -->
-							<section id="cta" class="main special">
-								<header class="major">
-									<h2>Ready to create together?</h2>
-									<p>Let's bring your brand’s story to life through high-performing UGC. If you’re ready to elevate your content, I’d love to hear from you.</p>
-								</header>
-								<footer class="major">
-									<ul class="actions special">
-										<li><a href="generic.html" class="button primary">Get Started</a></li>
-										<li><a href="generic.html" class="button">Learn More</a></li>
-									</ul>
-								</footer>
-							</section>
 
-					</div>
+   <!-- ABOUT ME SEKCIJA -->
+   <section id="about" class="bg-champagne/30 py-24 border-b border-champagne-dark/30">
+       <div class="max-w-6xl mx-auto px-6">
+           <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+               <h2 class="text-xs font-bold tracking-widest text-wine uppercase">About Me</h2>
+               <h3 class="text-4xl font-bold font-serif">Lithuanian-based creative blending strategy with art</h3>
+               <p class="text-charcoal/70 leading-relaxed">
+                   I combine 6+ years of marketing experience with creator storytelling to produce content brands can actually scale. My background in performing arts brings raw charisma, natural energy, and professional screen presence to every frame.
+               </p>
+           </div>
 
-				<!-- Footer -->
-					<footer id="footer">
-						<section>
-							<header class="major">
-								<h2>Ready to create together?</h2>
-								<p>Let's bring your brand’s story to life through high-performing UGC. If you’re ready to elevate your content, I’d love to hear from you.</p>
-							</header>
-							<ul class="actions">
-								<li><a href="generic.html" class="button">Learn More</a></li>
-							</ul>
-						</section>
-						<section>
-							<h2>Vakare Baltauskaite</h2>
-							<dl class="alt">
-								<dt>Email</dt>
-								<dd>vakarebaltauskaite@gmail.com</dd>
-								<dt>Phone</dt>
-								<dd>(000) 000-0000 x 0000</dd>
-								<dt>Email</dt>
-								<dd><a href="#">information@untitled.tld</a></dd>
-							</dl>
-							<ul class="icons">
-								<li><a href="#" class="icon brands fa-twitter alt"><span class="label">Twitter</span></a></li>
-								<li><a href="#" class="icon brands fa-facebook-f alt"><span class="label">Facebook</span></a></li>
-								<li><a href="#" class="icon brands fa-instagram alt"><span class="label">Instagram</span></a></li>
-								<li><a href="#" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
-								<li><a href="#" class="icon brands fa-dribbble alt"><span class="label">Dribbble</span></a></li>
-							</ul>
-						</section>
-						<p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-					</footer>
 
-			</div>
+           <!-- Trijų kortelių išdėstymas iš jūsų PDF -->
+           <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+               <!-- Kortelė 1 -->
+               <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
+                   <div class="w-12 h-12 rounded-full bg-champagne flex items-center justify-center text-wine">
+                       <i class="fa-solid fa-location-dot text-lg"></i>
+                   </div>
+                   <h4 class="text-lg font-bold text-charcoal">I'm a Gen Z creator based in Lithuania</h4>
+                   <p class="text-sm text-charcoal/70 leading-relaxed">
+                       I create high-performing UGC for brands targeting modern, social-first audiences across lifestyle, wellness, and tech.
+                   </p>
+               </div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-			<script>
-				$(document).ready(function(){
-					$('.brand-slider').slick({
-						slidesToShow: 5,
-						slidesToScroll: 1,
-						autoplay: true,
-						autoplaySpeed: 2000,
-						arrows: false,
-						dots: false,
-						pauseOnHover: false,
-						responsive: [
-							{
-								breakpoint: 1024,
-								settings: { slidesToShow: 3 }
-							},
-							{
-								breakpoint: 600,
-								settings: { slidesToShow: 2 }
-							}
-						]
-					});
-				});
-			</script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
 
-	</body>
+               <!-- Kortelė 2 -->
+               <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
+                   <div class="w-12 h-12 rounded-full bg-champagne flex items-center justify-center text-wine">
+                       <i class="fa-solid fa-lightbulb text-lg"></i>
+                   </div>
+                   <h4 class="text-lg font-bold text-charcoal">6 years experience in Digital Marketing & Design</h4>
+                   <p class="text-sm text-charcoal/70 leading-relaxed">
+                       Creating high-performing UGC designed to build trust, increase engagement, and drive sales.
+                   </p>
+               </div>
+
+
+               <!-- Kortelė 3 -->
+               <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
+                   <div class="w-12 h-12 rounded-full bg-champagne flex items-center justify-center text-wine">
+                       <i class="fa-solid fa-language text-lg"></i>
+                   </div>
+                   <h4 class="text-lg font-bold text-charcoal">I speak English & Lithuanian</h4>
+                   <p class="text-sm text-charcoal/70 leading-relaxed">
+                       I create content in English and Lithuanian for both local and global brands, easily adapting to your brand voice.
+                   </p>
+               </div>
+           </div>
+
+
+           <!-- Papildoma informacija (Solo/Partner, Equipment) -->
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+               <!-- Solo/Partneris -->
+               <div class="bg-champagne p-8 rounded-3xl border border-champagne-dark flex flex-col md:flex-row items-center gap-6">
+                   <div class="flex-1 space-y-2">
+                       <h4 class="font-bold text-lg text-charcoal">I can film solo or with my partner</h4>
+                       <p class="text-xs text-charcoal/70 leading-relaxed">
+                           Flexible setup: solo creator, production duo or authentic couple content depending on brand needs (my partner speaks English only).
+                       </p>
+                   </div>
+                   <div class="relative w-24 h-24 rounded-full overflow-hidden flex-shrink-0 bg-champagne-dark border border-champagne-dark">
+                       <!-- 🔴 Partnerių / poros placeholder nuotrauka -->
+                       <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80" alt="Duo filming" class="w-full h-full object-cover">
+                   </div>
+               </div>
+
+
+               <!-- Įranga -->
+               <div class="bg-champagne p-8 rounded-3xl border border-champagne-dark flex flex-col md:flex-row items-center gap-6">
+                   <div class="flex-1 space-y-2">
+                       <h4 class="font-bold text-lg text-charcoal">Equipped for high-quality content</h4>
+                       <p class="text-xs text-charcoal/70 leading-relaxed">
+                           I use iPhone 15 Pro, Fujifilm X100VI & DJI Pocket 3 to capture sharp photos and smooth video ready for social media.
+                       </p>
+                   </div>
+                   <div class="w-12 h-12 rounded-full bg-wine/10 flex items-center justify-center text-wine flex-shrink-0">
+                       <i class="fa-solid fa-camera text-xl"></i>
+                   </div>
+               </div>
+           </div>
+
+
+       </div>
+   </section>
+
+
+   <!-- PORTFOLIO / VIDEO TINKLELIS -->
+   <section id="videos" class="max-w-6xl mx-auto px-6 py-24">
+       <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+           <h2 class="text-xs font-bold tracking-widest text-wine uppercase">Videos Portfolio</h2>
+           <h3 class="text-4xl font-bold font-serif">Mano atlikti darbai</h3>
+           <p class="text-charcoal/70">Žemiau pateikti vertikalūs (9:16) vaizdo įrašų rėmeliai, į kuriuos galite įsikelti savo kuriamus video.</p>
+       </div>
+
+
+       <!-- Video tinklelis -->
+       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+           <!-- 1 Video kortelė -->
+           <div class="bg-white rounded-3xl p-4 border border-champagne-dark shadow-sm hover:shadow-md transition">
+               <div class="relative w-full aspect-[9/16] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
+                   <video class="w-full h-full object-cover" controls preload="metadata" poster="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=400&q=80">
+                       <source src="tavo_video_1.mp4" type="video/mp4">
+                       Vaizdo įrašas nepalaikomas.
+                   </video>
+               </div>
+               <div class="mt-4 px-2">
+                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty</span>
+                   <h4 class="font-bold text-base mt-2 text-charcoal">Skincare Routine Presentation</h4>
+               </div>
+           </div>
+
+
+           <!-- 2 Video kortelė -->
+           <div class="bg-white rounded-3xl p-4 border border-champagne-dark shadow-sm hover:shadow-md transition">
+               <div class="relative w-full aspect-[9/16] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
+                   <video class="w-full h-full object-cover" controls preload="metadata" poster="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80">
+                       <source src="tavo_video_2.mp4" type="video/mp4">
+                       Vaizdo įrašas nepalaikomas.
+                   </video>
+               </div>
+               <div class="mt-4 px-2">
+                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Lifestyle</span>
+                   <h4 class="font-bold text-base mt-2 text-charcoal">Unboxing & Aesthetic Product Overview</h4>
+               </div>
+           </div>
+
+
+           <!-- 3 Video kortelė -->
+           <div class="bg-white rounded-3xl p-4 border border-champagne-dark shadow-sm hover:shadow-md transition">
+               <div class="relative w-full aspect-[9/16] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
+                   <video class="w-full h-full object-cover" controls preload="metadata" poster="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=400&q=80">
+                       <source src="tavo_video_3.mp4" type="video/mp4">
+                       Vaizdo įrašas nepalaikomas.
+                   </video>
+               </div>
+               <div class="mt-4 px-2">
+                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Tech & Wellness</span>
+                   <h4 class="font-bold text-base mt-2 text-charcoal">Problem-Solving Direct Response Ad</h4>
+               </div>
+           </div>
+
+
+       </div>
+   </section>
+
+
+   <!-- NUOTRAUKŲ GALERIJA (Photography Examples) -->
+   <section id="photos" class="bg-champagne/40 py-24 border-t border-champagne-dark/30">
+       <div class="max-w-6xl mx-auto px-6">
+           <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+               <h2 class="text-xs font-bold tracking-widest text-wine uppercase">Photography Examples</h2>
+               <h3 class="text-4xl font-bold font-serif">Aesthetic UGC Photos</h3>
+               <p class="text-charcoal/70">Authentic, lifestyle UGC photos taken with my iPhone Pro or Fujifilm X100VI camera.</p>
+           </div>
+
+
+           <!-- Nuotraukų tinklelis -->
+           <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+               <!-- 1 nuotrauka -->
+               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                   <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=400&q=80" alt="Beauty UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+               </div>
+               <!-- 2 nuotrauka -->
+               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                   <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80" alt="Lifestyle UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+               </div>
+               <!-- 3 nuotrauka -->
+               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                   <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=400&q=80" alt="Tech UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+               </div>
+               <!-- 4 nuotrauka -->
+               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                   <img src="https://images.unsplash.com/photo-1608248597481-496100c8c836?auto=format&fit=crop&w=400&q=80" alt="Wellness UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+               </div>
+           </div>
+           
+           <!-- Nuotraukų tinklelis2 -->
+           <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+               <!-- 1 nuotrauka -->
+               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                   <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=400&q=80" alt="Beauty UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+               </div>
+               <!-- 2 nuotrauka -->
+               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                   <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&q=80" alt="Lifestyle UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+               </div>
+               <!-- 3 nuotrauka -->
+               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                   <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=400&q=80" alt="Tech UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+               </div>
+               <!-- 4 nuotrauka -->
+               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                   <img src="https://images.unsplash.com/photo-1608248597481-496100c8c836?auto=format&fit=crop&w=400&q=80" alt="Wellness UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+               </div>
+           </div>
+       </div>
+   </section>
+
+
+   <!-- WORKFLOW SEKCIJA (Interaktyvus akordeonas) -->
+   <section id="workflow" class="max-w-4xl mx-auto px-6 py-24">
+       <div class="text-center mb-16 space-y-4">
+           <h2 class="text-xs font-bold tracking-widest text-wine uppercase">My Process</h2>
+           <h3 class="text-4xl font-bold font-serif">How We Work Together</h3>
+       </div>
+
+
+       <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
+           <!-- Akordeonų pusė -->
+           <div class="md:col-span-3 space-y-4">
+              
+               <!-- 1 Žingsnis -->
+               <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                   <button onclick="toggleAccordion(this, 'step1-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                       <span>1. Establish a Creative Vision (Briefing)</span>
+                       <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
+                   </button>
+                   <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                       <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
+                           <p>We align on your goals via a quick questionnaire, email, or a Zoom call.</p>
+                           <p class="text-xs text-charcoal/60">Whether you already have a strict brief and script, or need me to develop the creative concept and script from scratch – I've got you covered.</p>
+                       </div>
+                   </div>
+               </div>
+
+
+               <!-- 2 Žingsnis -->
+               <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                   <button onclick="toggleAccordion(this, 'step2-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                       <span>2. Agreement & Deposit</span>
+                       <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
+                   </button>
+                   <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                       <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
+                           <p>To lock in the project, we sign a contract and outline the exact deliverables.</p>
+                           <p class="text-xs text-charcoal/60">A 50% upfront deposit is required to begin, and the remaining 50% is paid upon final approval of the content.</p>
+                       </div>
+                   </div>
+               </div>
+
+
+               <!-- 3 Žingsnis -->
+               <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                   <button onclick="toggleAccordion(this, 'step3-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                       <span>3. Creative Development & Production</span>
+                       <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
+                   </button>
+                   <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                       <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
+                           <p>Products are shipped, and production officially kicks off!</p>
+                           <p class="text-xs text-charcoal/60">I handle the complete creation cycle: scripting, styling, professional lighting, recording with pro-gear, and high-conversion post-production editing.</p>
+                       </div>
+                   </div>
+               </div>
+
+
+               <!-- 4 Žingsnis -->
+               <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                   <button onclick="toggleAccordion(this, 'step4-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                       <span>4. High-Quality Deliverables</span>
+                       <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
+                   </button>
+                   <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                       <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
+                           <ul class="space-y-1 list-disc list-inside text-xs text-charcoal/70">
+                               <li><strong>Turnaround:</strong> First drafts are delivered within 10 business days after receiving the products.</li>
+                               <li><strong>Revisions:</strong> Included edits will be reviewed and adjusted to perfection.</li>
+                               <li><strong>Delivery:</strong> Final high-quality files are sent via Google Drive or WeTransfer.</li>
+                           </ul>
+                       </div>
+                   </div>
+               </div>
+
+
+           </div>
+
+
+           <!-- Iliustracija, kuri keičiasi arba lieka estetiška fone -->
+           <div class="md:col-span-2 flex justify-center">
+               <div class="w-full h-80 rounded-3xl overflow-hidden border border-champagne-dark bg-champagne-dark relative">
+                   <!-- Gamybos vizualas -->
+                   <img id="workflow-img" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80" alt="Workflow" class="w-full h-full object-cover transition-opacity duration-300">
+               </div>
+           </div>
+       </div>
+   </section>
+
+
+   <!-- KLAUSIMAI IR ATSAKYMAI (FAQ) -->
+   <section id="faq" class="max-w-4xl mx-auto px-6 py-24 border-t border-champagne-dark/30">
+       <div class="text-center mb-16 space-y-4">
+           <h2 class="text-xs font-bold tracking-widest text-wine uppercase">FAQ's</h2>
+           <h3 class="text-4xl font-bold font-serif">Frequently Asked Questions</h3>
+       </div>
+
+
+       <div class="space-y-4">
+          
+           <!-- 1 Klausimas -->
+           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                   <span>What services do you offer?</span>
+                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+               </button>
+               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                       I create high-performing short-form UGC videos (concept, scripting, filming, and editing) and product photography. For high-end campaigns, I also offer Premium Production packages, where I assemble a professional team – including videographers, photographers, and makeup artists – to deliver cinema-quality commercial content.
+                   </div>
+               </div>
+           </div>
+
+
+           <!-- 2 Klausimas -->
+           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                   <span>Do you handle the concept and script, or do I provide them?</span>
+                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+               </button>
+               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                       Both! I can work directly from your existing brief and script, or I can develop the full creative concept, hook, and storyboard from scratch based on your marketing goals.
+                   </div>
+               </div>
+           </div>
+
+
+           <!-- 3 Klausimas -->
+           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                   <span>What types of content do you create?</span>
+                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+               </button>
+               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                       I specialize in lifestyle, beauty, wellness, and tech. My content styles include organic product presentations, aesthetic reviews, unboxings, tutorials, ASMR, lifestyle vlogs, and direct-response ads/testimonials. All content can be tailored with or without voiceovers and is optimized for TikTok, Instagram Reels, and YouTube Shorts.
+                   </div>
+               </div>
+           </div>
+
+
+           <!-- 4 Klausimas -->
+           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                   <span>Do you offer monthly retainers or packages?</span>
+                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+               </button>
+               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                       Yes. I offer single-video options, content bundles, and monthly retainers for brands looking for a consistent, long-term content partner to scale their social media presence.
+                   </div>
+               </div>
+           </div>
+
+
+           <!-- 5 Klausimas -->
+           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                   <span>What extras or add-ons do you provide?</span>
+                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+               </button>
+               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                       You can customize your package with add-ons such as raw footage (b-roll), whitelisting/paid ad usage rights, extra product photos, faster turnaround times, or additional rounds of revisions.
+                   </div>
+               </div>
+           </div>
+
+
+           <!-- 6 Klausimas -->
+           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                   <span>What are your rates and pricing structure?</span>
+                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+               </button>
+               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                       My pricing is transparent and scales with your project needs (with better rates available when booking content bundles):
+                       <ul class="list-disc list-inside mt-2 space-y-1 text-sm">
+                           <li><strong>Individual UGC Videos:</strong> Start at €200</li>
+                           <li><strong>Content Bundles:</strong> Start at €350</li>
+                           <li><strong>Premium Team Production Packages:</strong> Pricing is upon request, starting from €400 per video (depending on the crew size and project scope).</li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+
+
+       </div>
+   </section>
+
+
+   <!-- KONTAKTAI (Ready to create together?) -->
+   <section id="contact" class="bg-champagne py-24 border-t border-champagne-dark/30">
+       <div class="max-w-2xl mx-auto px-6 text-center space-y-8">
+           <h2 class="text-4xl font-extrabold text-charcoal leading-tight">Ready to create together?</h2>
+           <p class="text-charcoal/70 max-w-lg mx-auto leading-relaxed">
+               Let's discuss how I can help bring your brand's story to life through authentic UGC content.
+           </p>
+
+
+           <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+               <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white font-bold px-8 py-4 rounded-full hover:bg-wine-light transition shadow-lg shadow-wine/20 text-sm flex items-center justify-center gap-2">
+                   <i class="fa-solid fa-envelope"></i> Send me an email
+               </a>
+               <a href="https://instagram.com" target="_blank" class="bg-white border border-champagne-dark text-charcoal hover:bg-champagne font-bold px-8 py-4 rounded-full transition text-sm flex items-center justify-center gap-2">
+                   <i class="fa-brands fa-instagram"></i> Follow on Instagram
+               </a>
+           </div>
+
+
+           <!-- Kontaktiniai Duomenys -->
+           <div class="pt-10 flex flex-wrap justify-center gap-8 text-xs font-semibold text-charcoal/60 uppercase tracking-widest">
+               <div class="flex items-center gap-2">
+                   <i class="fa-solid fa-envelope text-wine"></i>
+                   <span class="normal-case">vakarebaltauskaite@gmail.com</span>
+               </div>
+               <div class="flex items-center gap-2">
+                   <i class="fa-solid fa-location-dot text-wine"></i>
+                   <span>Lithuania</span>
+               </div>
+               <div class="flex items-center gap-2">
+                   <i class="fa-solid fa-globe text-wine"></i>
+                   <span>Available globally</span>
+               </div>
+           </div>
+       </div>
+   </section>
+
+
+   <!-- FOOTERIS -->
+   <footer class="bg-charcoal text-champagne/60 py-12 text-sm border-t border-charcoal/90">
+       <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+           <div>
+               <p class="font-extrabold text-base tracking-wider text-white">VAKARĖ <span class="font-light text-champagne/80">| UGC</span></p>
+               <p class="text-xs text-champagne/40 mt-1">&copy; 2026 Vakarė UGC. Visos teisės saugomos.</p>
+           </div>
+           <div class="flex space-x-6 text-lg">
+               <a href="#" class="hover:text-white transition"><i class="fa-brands fa-tiktok"></i></a>
+               <a href="https://instagram.com" target="_blank" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+               <a href="#" class="hover:text-white transition"><i class="fa-brands fa-linkedin-in"></i></a>
+               <a href="mailto:vakarebaltauskaite@gmail.com" class="hover:text-white transition"><i class="fa-solid fa-envelope"></i></a>
+           </div>
+       </div>
+   </footer>
+
+
+   <!-- INTERAKTYVIŲ DETALIŲ JAVASCRIPT LOGIKA -->
+   <script>
+       // D.U.K. akordeono logika
+       function toggleFAQ(button) {
+           const content = button.nextElementSibling;
+           const icon = button.querySelector('.faq-icon');
+          
+           if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+               content.style.maxHeight = '0px';
+               content.style.opacity = '0';
+               icon.style.transform = 'rotate(0deg)';
+               button.classList.remove('bg-champagne/20');
+           } else {
+               content.style.maxHeight = content.scrollHeight + 'px';
+               content.style.opacity = '1';
+               icon.style.transform = 'rotate(180deg)';
+               button.classList.add('bg-champagne/20');
+           }
+       }
+
+
+       // Workflow akordeono logika, kuri papildomai keičia fono iliustraciją
+       function toggleAccordion(button, step) {
+           const content = button.nextElementSibling;
+           const icon = button.querySelector('.accordion-icon');
+           const img = document.getElementById('workflow-img');
+
+
+           // Vaizdų keitimo priskyrimas pagal pasirinktą žingsnį
+           const images = {
+               'step1-img': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80',
+               'step2-img': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&q=80',
+               'step3-img': 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=80',
+               'step4-img': 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80'
+           };
+          
+           if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+               content.style.maxHeight = '0px';
+               content.style.opacity = '0';
+               icon.classList.remove('fa-minus');
+               icon.classList.add('fa-plus');
+               button.classList.remove('bg-champagne/20');
+           } else {
+               // Uždaryti kitus workflow akordeonus
+               const allAccordions = button.closest('.space-y-4').querySelectorAll('.accordion-content');
+               const allIcons = button.closest('.space-y-4').querySelectorAll('.accordion-icon');
+               const allButtons = button.closest('.space-y-4').querySelectorAll('button');
+              
+               allAccordions.forEach(acc => { acc.style.maxHeight = '0px'; acc.style.opacity = '0'; });
+               allIcons.forEach(ic => { ic.classList.remove('fa-minus'); ic.classList.add('fa-plus'); });
+               allButtons.forEach(btn => btn.classList.remove('bg-champagne/20'));
+
+
+               // Atidaryti aktyvų
+               content.style.maxHeight = content.scrollHeight + 'px';
+               content.style.opacity = '1';
+               icon.classList.remove('fa-plus');
+               icon.classList.add('fa-minus');
+               button.classList.add('bg-champagne/20');
+
+
+               // Pakeisti nuotrauką su švelniu pereinamumu
+               img.style.opacity = '0';
+               setTimeout(() => {
+                   img.src = images[step] || images['step1-img'];
+                   img.style.opacity = '1';
+               }, 150);
+           }
+       }
+   </script>
+
+
+</body>
 </html>
+
