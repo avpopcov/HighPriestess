@@ -3801,6 +3801,24 @@ input, select, textarea {
     border: none;
 }
 
+/* Brand Carousel Styles */
+.brand-slider {
+    padding: 2em 0;
+}
+
+.brand-slider div img {
+    margin: 0 auto;
+    max-height: 80px; /* Adjust based on your logo sizes */
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.brand-slider div img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
 /* Wrapper */
 
 	#wrapper {
