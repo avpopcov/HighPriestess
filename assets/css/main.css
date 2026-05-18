@@ -315,7 +315,7 @@ input, select, textarea {
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #ffffff;
+		color: #291818;
 	}
 
 	blockquote {
@@ -3074,6 +3074,8 @@ input, select, textarea {
 	#header {
 		padding: 5em 5em 1em 5em ;
 		text-align: center;
+		position: relative;
+    	z-index: 10;
 	}
 
 		#header h1 {
@@ -3211,19 +3213,13 @@ input, select, textarea {
 /* Nav */
 
 	#nav {
-		-moz-transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
-		-webkit-transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
-		-ms-transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
-		transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
-		background-color: #ffffff;
-		color: #636363;
+		background-color: transparent !important;
+    	box-shadow: none !important;
+    	transition: background-color 0.3s ease, padding 0.3s ease;
 		position: absolute;
 		width: 64em;
 		max-width: calc(100% - 4em);
 		padding: 1em;
-		background-color: #f7f7f7;
-		border-top-left-radius: 0.25em;
-		border-top-right-radius: 0.25em;
 		cursor: default;
 		text-align: center;
 	}
@@ -3285,6 +3281,7 @@ input, select, textarea {
 					transition: font-size 0.2s ease;
 					display: inline-block;
 					height: 2.25em;
+					color: #636363;
 					line-height: 2.25em;
 					padding: 0 1.25em;
 					border: 0;
@@ -3334,6 +3331,8 @@ input, select, textarea {
 /* Main */
 
 	#main {
+		position: relative;
+    	z-index: 5; /* Keeps it behind the nav (10000) and header (5) */
 		background-color: #ffffff;
 		color: #636363;
 		border-radius: 0.25em;
@@ -3763,6 +3762,7 @@ input, select, textarea {
 /* Container to center the phone on the page */
 .iphone-mockup {
     position: relative;
+	z-index: 10;
     width: 280px; /* Width of the phone */
     height: 560px; /* Height of the phone */
     margin: 20px auto;
@@ -3803,6 +3803,9 @@ input, select, textarea {
 
 /* Brand Carousel Styles */
 .brand-slider {
+	position: relative;
+    z-index: 1;
+	margin-top: -400px;
     padding: 2em 0;
 }
 
@@ -3810,7 +3813,6 @@ input, select, textarea {
     margin: 0 auto;
     max-height: 80px; /* Adjust based on your logo sizes */
     filter: grayscale(100%);
-    opacity: 0.6;
     transition: all 0.3s ease;
 }
 
