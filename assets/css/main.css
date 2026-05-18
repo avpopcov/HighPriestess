@@ -3761,6 +3761,7 @@ input, select, textarea {
 
 /* Container to center the phone on the page */
 .iphone-mockup {
+	opacity: 1 !important;
     position: relative;
 	z-index: 10;
     width: 280px; /* Width of the phone */
@@ -3805,7 +3806,7 @@ input, select, textarea {
 .brand-slider {
 	position: relative;
     z-index: 1;
-	margin-top: -400px;
+	margin-top: -250px;
     padding: 2em 0;
 }
 
