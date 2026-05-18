@@ -3801,6 +3801,67 @@ input, select, textarea {
     border: none;
 }
 
+/* Floating Navigation Bar */
+#floating-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 10px 20px;
+    z-index: 10001;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    transition: all 0.4s ease-in-out;
+}
+
+.hidden-nav {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.visible-nav {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-logo {
+    font-weight: 400;
+    color: #636363;
+    font-size: 1.1rem;
+}
+
+#floating-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+#floating-nav ul li a {
+    text-decoration: none;
+    color: #636363;
+    font-size: 0.8rem;
+    font-weight: 400;
+    border-bottom: none;
+}
+
+#floating-nav ul li a:hover {
+    color: #e37682;
+}
+
 /* Wrapper */
 
 	#wrapper {
