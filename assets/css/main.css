@@ -44,8 +44,7 @@
 /* Brand Carousel Styles */
 .brand-slider {
 	position: relative;
-    z-index: 1;
-	margin-top: -250px;
+	margin-top: -50px;
     padding: 2em 0;
 }
 
