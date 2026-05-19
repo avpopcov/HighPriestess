@@ -5,7 +5,6 @@
 	z-index: 10;
     width: 280px; /* Width of the phone */
     height: 560px; /* Height of the phone */
-    margin: 20px auto;
     border: 12px solid #222; /* The phone frame */
     border-radius: 36px;
     background: #000;
