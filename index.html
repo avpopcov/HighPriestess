@@ -46,7 +46,7 @@
    <style>
        /* Sklandus akordeono išskleidimo efektas */
        .accordion-content {
-           transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+           transition: max-height 0.2s ease-out, opacity 0.2s ease-out;
        }
       
        /* Begalinio judėjimo animacija prekių ženklų logotipams */
@@ -141,30 +141,27 @@
 
        <!-- NUOTRAUKOS RĖMELIS (Keičiama nuotrauka) -->
        <div class="flex-1 flex justify-center">
-           <div class="relative group">
+           <div class="relative group">              
                <!-- Foninis dekoratyvinis rėmelis -->
-               <div class="absolute inset-0 bg-champagne rounded-[2rem] transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition duration-300"></div>
                <!-- Pagrindinis nuotraukos konteineris -->
-               <div class="relative w-72 md:w-80 rounded-[2rem] overflow-hidden ">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO PORTRETINĘ NUOTRAUKĄ (pakeiskite src nuorodą) -->
-                   <div class="iphone-mockup">
-							<div class="iphone-screen">
-								<iframe 
-									src="https://www.youtube.com/embed/gmBVSV17dn8?autoplay=0&rel=0" 
-									frameborder="0" 
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-									allowfullscreen>
-								</iframe>
-							</div>
-						</div>
-               </div>
+                  <!-- 🔴 ČIA ĮKELKITE SAVO PORTRETINĘ NUOTRAUKĄ (pakeiskite src nuorodą) -->
+                <div class="iphone-mockup">
+                    <div class="iphone-screen rounded-[2rem] shadow-xl">
+                        <iframe 
+                            src="https://www.youtube.com/embed/gmBVSV17dn8?autoplay=0&rel=0" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>	
+                </div>
            </div>
        </div>
    </section>
 
 
    <!-- PREKIŲ ŽENKLŲ LOGOTIPŲ TICKER'IS -->
-   <div class="w-full bg-champagne py-8 overflow-hidden border-y border-champagne-dark/40 brand-slider">
+   <div class="w-full bg-champagne py-6 overflow-hidden border-y border-champagne-dark/40 brand-slider">
        <div class="animate-marquee whitespace-nowrap flex items-center max-height-80px gap-16">
            <!-- Pirmas logotipų rinkinys -->
             <div><img src="images/Vision-express.svg.png" alt="" /></div>
@@ -690,7 +687,7 @@
    <section id="photos" class="bg-champagne/40 py-24 border-t border-champagne-dark/30">
        <div class="max-w-6xl mx-auto px-6">
            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
-               <h2 class="text-4xl text-wine font-serif tracking-widest">Photography Examples</h2>
+               <h2 class="text-4xl text-wine font-serif font-bold tracking-widest">Photography Examples</h2>
                <p>Authentic, lifestyle UGC photos designed to seamlessly complement your brand's content</p>
            </div>
 
