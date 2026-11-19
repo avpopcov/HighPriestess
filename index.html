@@ -1,1034 +1,1241 @@
 <!DOCTYPE html>
 <html lang="lt" class="scroll-smooth">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Vakarė | UGC Creator & Actor Portfolio</title>
-   <!-- Tailwind CSS per CDN -->
-   <script src="https://cdn.tailwindcss.com"></script>
-   <!-- Google Fonts: Plus Jakarta Sans (modernus sans-serif) ir Playfair Display (elegantiškas serif) -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vakarė | UGC Creator & Actor Portfolio</title>
+    <!-- Tailwind CSS per CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans (modernus sans-serif) ir Playfair Display (elegantiškas serif) -->
     <link rel="icon" type="image/png" href="images/favicon.png">
-   <link rel="stylesheet" href="assets/css/main.css" />
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-   <!-- Font Awesome piktogramoms -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome piktogramoms -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Tailwind spalvų konfigūracija priderinta prie jūsų pageidavimų -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        champagne: {
+                            light: '#FAF7F2', /* Šviesiausia šampano fono spalva */
+                            DEFAULT: '#F4ECE1', /* Vidutinė šampano spalva blokams */
+                            dark: '#EADFCF', /* Tamsesnė šešėliams/rėmeliams */
+                        },
+                        wine: {
+                            light: '#8A2534', /* Šviesesnė raudono vyno (hover būsenai) */
+                            DEFAULT: '#5E131E', /* Pagrindinė raudono vyno spalva mygtukams */
+                            dark: '#450B14', /* Tamsi vyno spalva tekstams */
+                        },
+                        charcoal: '#221F1D', /* Švelni juoda tekstui */
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
 
-   <!-- Tailwind spalvų konfigūracija priderinta prie jūsų pageidavimų -->
-   <script>
-       tailwind.config = {
-           theme: {
-               extend: {
-                   colors: {
-                       champagne: {
-                           light: '#FAF7F2',    /* Šviesiausia šampano fono spalva */
-                           DEFAULT: '#F4ECE1',  /* Vidutinė šampano spalva blokams */
-                           dark: '#EADFCF',     /* Tamsesnė šešėliams/rėmeliams */
-                       },
-                       wine: {
-                           light: '#8A2534',    /* Šviesesnė raudono vyno (hover būsenai) */
-                           DEFAULT: '#5E131E',  /* Pagrindinė raudono vyno spalva mygtukams */
-                           dark: '#450B14',     /* Tamsi vyno spalva tekstams */
-                       },
-                       charcoal: '#221F1D',     /* Švelni juoda tekstui */
-                   },
-                   fontFamily: {
-                       sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                       serif: ['"Playfair Display"', 'serif'],
-                   }
-               }
-           }
-       }
-   </script>
+        // Viral Reach karuselės logika
+        const viralCarousel = document.getElementById('viral-carousel');
+        const viralDots = document.querySelectorAll('.viral-dot');
 
+        function updateViralDots() {
+            if (!viralCarousel || !viralDots.length) return;
+            const firstItem = viralCarousel.firstElementChild;
+            if (!firstItem) return;
+            const step = firstItem.offsetWidth + 24; // kortelės plotis + gap-6 (24px)
+            const maxScroll = viralCarousel.scrollWidth - viralCarousel.clientWidth;
+            let activeIndex = Math.round(viralCarousel.scrollLeft / step);
+            if (viralCarousel.scrollLeft >= maxScroll - 8) {
+                activeIndex = viralDots.length - 1;
+            }
+            activeIndex = Math.max(0, Math.min(activeIndex, viralDots.length - 1));
 
-   <style>
-       /* Sklandus akordeono išskleidimo efektas */
-       .accordion-content {
-           transition: max-height 0.2s ease-out, opacity 0.2s ease-out;
-       }
-      
-       /* Begalinio judėjimo animacija prekių ženklų logotipams */
-       @keyframes marquee {
-           0% { transform: translateX(0%); }
-           100% { transform: translateX(-50%); }
-       }
-       .animate-marquee {
-           display: flex;
-           width: max-content;
-           animation: marquee 25s linear infinite;
-       }
-       .animate-marquee:hover {
-           animation-play-state: paused;
-       }
-   </style>
+            viralDots.forEach((dot, i) => {
+                if (i === activeIndex) {
+                    dot.classList.remove('bg-champagne-dark', 'w-2');
+                    dot.classList.add('bg-wine', 'w-6');
+                } else {
+                    dot.classList.remove('bg-wine', 'w-6');
+                    dot.classList.add('bg-champagne-dark', 'w-2');
+                }
+            });
+        }
+
+        function moveViralCarousel(direction) {
+            if (!viralCarousel) return;
+            const firstItem = viralCarousel.firstElementChild;
+            const step = firstItem ? firstItem.offsetWidth + 24 : 280;
+            const maxScroll = viralCarousel.scrollWidth - viralCarousel.clientWidth;
+
+            if (direction > 0 && viralCarousel.scrollLeft >= maxScroll - 8) {
+                viralCarousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else if (direction < 0 && viralCarousel.scrollLeft <= 8) {
+                viralCarousel.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            } else {
+                viralCarousel.scrollBy({ left: direction * step, behavior: 'smooth' });
+            }
+        }
+
+        function scrollViralTo(index) {
+            if (!viralCarousel) return;
+            const firstItem = viralCarousel.firstElementChild;
+            const step = firstItem ? firstItem.offsetWidth + 24 : 280;
+            viralCarousel.scrollTo({ left: index * step, behavior: 'smooth' });
+        }
+
+        if (viralCarousel) {
+            viralCarousel.addEventListener('scroll', updateViralDots, { passive: true });
+        }
+    </script>
+
+    <style>
+        /* Sklandus akordeono išskleidimo efektas */
+        .accordion-content {
+            transition: max-height 0.2s ease-out, opacity 0.2s ease-out;
+        }
+
+        /* Begalinio judėjimo animacija prekių ženklų logotipams */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 35s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+
+        /* Paslėpti slinkties juostą karuselėje */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
 <body class="bg-champagne-light text-charcoal font-sans antialiased">
 
+    <!-- NAVIGACIJA -->
+    <nav class="sticky top-0 z-50 bg-champagne-light/90 backdrop-blur-md border-b border-champagne-dark/30">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- LOGO -->
+            <a href="#" class="font-extrabold text-lg tracking-wider text-wine">
+                Vakarė <span class="font-light text-charcoal">| UGC</span>
+            </a>
 
-   <!-- NAVIGACIJA -->
-   <nav class="sticky top-0 z-50 bg-champagne-light/90 backdrop-blur-md border-b border-champagne-dark/30">
-       <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-           <!-- LOGO -->
-           <a href="#" class="font-extrabold text-lg tracking-wider text-wine">
-               Vakarė <span class="font-light text-charcoal">| UGC</span>
-           </a>
-          
-           <!-- MENU -->
-           <div class="hidden lg:flex items-center space-x-8 font-medium text-xs tracking-wider uppercase">
-               <a href="#" class="hover:text-wine transition">Home</a>
-               <a href="#about" class="hover:text-wine transition">About me</a>
-               <a href="#videos" class="hover:text-wine transition">Videos</a>
-               <a href="#photos" class="hover:text-wine transition">Photos</a>
-               <a href="#workflow" class="hover:text-wine transition">Workflow</a>
-               <!-- Actor Page Nuoroda (pakeiskite href į savo kitą svetainę) -->
-               <a href="https://vakarebaltauskaite.wixsite.com/baltavakare?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" class="hover:text-wine transition flex items-center gap-1">
-                   Actor page <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-               </a>
-               <!-- Creative Nuoroda (pakeiskite href į savo kitą svetainę) -->
-               <a href="https://baltavakare.carrd.co/?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" class="hover:text-wine transition flex items-center gap-1">
-                   Creative <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-               </a>
-               <a href="#faq" class="hover:text-wine transition">FAQ</a>
-              
-               <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white px-5 py-2.5 rounded-full hover:bg-wine-light transition font-semibold shadow-md shadow-wine/10 normal-case tracking-normal">
-                   Email me
-               </a>
-           </div>
-          
-           <!-- Mobilus Meniu Mygtukas -->
-           <div class="lg:hidden">
-               <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white px-4 py-2 rounded-full text-xs hover:bg-wine-light transition font-semibold">
-                   Email me
-               </a>
-           </div>
-       </div>
-   </nav>
+            <!-- DESKTOP MENU -->
+            <div class="hidden lg:flex items-center space-x-8 font-medium text-xs tracking-wider uppercase">
+                <a href="#" class="hover:text-wine transition">Home</a>
+                <a href="#about" class="hover:text-wine transition">About me</a>
+                <a href="#videos" class="hover:text-wine transition">Videos</a>
+                <a href="#photos" class="hover:text-wine transition">Photos</a>
+                <a href="#workflow" class="hover:text-wine transition">Workflow</a>
+                <a href="https://vakarebaltauskaite.wixsite.com/baltavakare?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener noreferrer" class="hover:text-wine transition flex items-center gap-1">
+                    Actor page <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+                <a href="https://baltavakare.carrd.co/?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener noreferrer" class="hover:text-wine transition flex items-center gap-1">
+                    Creative <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                </a>
+                <a href="#faq" class="hover:text-wine transition">FAQ</a>
 
+                <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white px-5 py-2.5 rounded-full hover:bg-wine-light transition font-semibold shadow-md shadow-wine/10 normal-case tracking-normal">
+                    Email me
+                </a>
+            </div>
 
-   <!-- HERO SEKCIJA -->
-   <section class="max-w-6xl mx-auto px-6 pt-12 pb-24 md:py-28 flex flex-col-reverse md:flex-row items-center gap-16">
-       <!-- TEKSTINĖ DALIS -->
-       <div class="flex-1 text-center md:text-left space-y-6">
-           <div class="inline-flex items-center gap-2 bg-champagne px-4 py-2 rounded-full border border-champagne-dark/50">
-               <span class="w-2 h-2 rounded-full bg-wine animate-pulse"></span>
-               <span class="text-[10px] font-bold tracking-widest text-wine uppercase">UGC CREATOR & ACTOR</span>
-           </div>
-          
-           <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-charcoal leading-tight">
-               Vakarė Balta <br>
-               <span class="font-serif italic font-normal text-wine">Scroll-stopping content</span>
-           </h1>
-          
-           <p class="text-base text-charcoal/80 leading-relaxed max-w-lg">
-               Combining 5+ years of marketing and performing arts with storytelling and creative direction, I deliver engaging, high-conversion UGC rooted in aesthetic, lived-in visuals.
-           </p>
-           <p class="text-sm text-charcoal/60 leading-relaxed max-w-lg">
-               With a sharp creative instinct and a detail-driven approach, I help beauty, lifestyle, wellness, and tech brands turn their vision into content that connects – and converts.
-           </p>
-          
-           <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
-               <a href="#videos" class="bg-wine text-white text-center font-bold px-8 py-4 rounded-full hover:bg-wine-light transition shadow-lg shadow-wine/20 text-sm">
-                   Videos portfolio
-               </a>
-               <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-transparent border border-wine text-wine hover:bg-wine hover:text-white text-center font-bold px-8 py-4 rounded-full transition text-sm">
-                   Email me
-               </a>
-           </div>
-       </div>
+            <!-- MOBILUS MENIU VALDYMAS -->
+            <div class="flex items-center gap-3 lg:hidden">
+                <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white px-4 py-2 rounded-full text-xs hover:bg-wine-light transition font-semibold">
+                    Email me
+                </a>
+                <button id="mobile-menu-btn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" class="p-2 rounded-lg text-charcoal hover:text-wine hover:bg-champagne transition focus:outline-none">
+                    <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
 
+        <!-- MOBILUS IŠSKLEIDŽIAMAS MENIU -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-champagne-light border-t border-champagne-dark/30 px-6 py-6 space-y-4 font-medium text-xs tracking-wider uppercase shadow-lg">
+            <a href="#" class="block py-1 hover:text-wine transition mobile-nav-link">Home</a>
+            <a href="#about" class="block py-1 hover:text-wine transition mobile-nav-link">About me</a>
+            <a href="#videos" class="block py-1 hover:text-wine transition mobile-nav-link">Videos</a>
+            <a href="#photos" class="block py-1 hover:text-wine transition mobile-nav-link">Photos</a>
+            <a href="#workflow" class="block py-1 hover:text-wine transition mobile-nav-link">Workflow</a>
+            <a href="https://vakarebaltauskaite.wixsite.com/baltavakare?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 py-1 hover:text-wine transition mobile-nav-link">
+                Actor page <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+            <a href="https://baltavakare.carrd.co/?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 py-1 hover:text-wine transition mobile-nav-link">
+                Creative <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+            <a href="#faq" class="block py-1 hover:text-wine transition mobile-nav-link">FAQ</a>
+        </div>
+    </nav>
 
-       <!-- NUOTRAUKOS RĖMELIS (Keičiama nuotrauka) -->
-       <div class="flex-1 flex justify-center">
-           <div class="relative group">              
-               <!-- Foninis dekoratyvinis rėmelis -->
-               <!-- Pagrindinis nuotraukos konteineris -->
-                  <!-- 🔴 ČIA ĮKELKITE SAVO PORTRETINĘ NUOTRAUKĄ (pakeiskite src nuorodą) -->
+    <!-- HERO SEKCIJA -->
+    <section class="max-w-6xl mx-auto px-6 pt-12 pb-24 md:py-28 flex flex-col-reverse md:flex-row items-center gap-16">
+        <!-- TEKSTINĖ DALIS -->
+        <div class="flex-1 text-center md:text-left space-y-6">
+            <div class="inline-flex items-center gap-2 bg-champagne px-4 py-2 rounded-full border border-champagne-dark/50">
+                <span class="w-2 h-2 rounded-full bg-wine animate-pulse"></span>
+                <span class="text-[10px] font-bold tracking-widest text-wine uppercase">UGC CREATOR & ACTOR</span>
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-charcoal leading-tight">
+                Vakarė Balta <br>
+                <span class="font-serif italic font-normal text-wine">Scroll-stopping content</span>
+            </h1>
+
+            <p class="text-base text-charcoal/80 leading-relaxed max-w-lg mx-auto md:mx-0">
+                Combining 5+ years of marketing and performing arts with storytelling and creative direction, I deliver engaging, high-conversion UGC rooted in aesthetic, lived-in visuals.
+            </p>
+            <p class="text-sm text-charcoal/60 leading-relaxed max-w-lg mx-auto md:mx-0">
+                With a sharp creative instinct and a detail-driven approach, I help beauty, lifestyle, wellness, and tech brands turn their vision into content that connects – and converts.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+                <a href="#videos" class="bg-wine text-white text-center font-bold px-8 py-4 rounded-full hover:bg-wine-light transition shadow-lg shadow-wine/20 text-sm">
+                    Videos portfolio
+                </a>
+                <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-transparent border border-wine text-wine hover:bg-wine hover:text-white text-center font-bold px-8 py-4 rounded-full transition text-sm">
+                    Email me
+                </a>
+            </div>
+        </div>
+
+        <!-- HERO VIDEO RĖMELIS -->
+        <div class="flex-1 flex justify-center">
+            <div class="relative group">
                 <div class="iphone-mockup">
                     <div class="iphone-screen rounded-[2rem] shadow-xl">
-                        <iframe 
-                            src="https://www.youtube.com/embed/gmBVSV17dn8?autoplay=0&rel=0" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        <iframe
+                            src="https://www.youtube.com/embed/gmBVSV17dn8?autoplay=0&rel=0"
+                            title="Vakarė Balta UGC Showreel"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
                         </iframe>
-                    </div>	
+                    </div>
                 </div>
-           </div>
-       </div>
-   </section>
+            </div>
+        </div>
+    </section>
 
+    <!-- PREKIŲ ŽENKLŲ LOGOTIPŲ TICKER'IS (Dvigubas rinkinys begaliniam ciklui) -->
+    <div class="w-full bg-champagne py-6 overflow-hidden border-y border-champagne-dark/40 brand-slider">
+        <div class="animate-marquee whitespace-nowrap flex items-center">
+            <!-- Pirmas logotipų rinkinys -->
+            <div class="flex items-center gap-16 pr-16 shrink-0">
+                <div><img src="images/Vision-express.svg.png" alt="Vision Express" /></div>
+                <div><img src="images/PerlasGo.png" alt="Perlas Go" /></div>
+                <div><img src="images/kilo.healts.png" alt="Kilo Health" /></div>
+                <div><img src="images/Lumene.png" alt="Lumene" /></div>
+                <div><img src="images/air-guru.png" alt="AirGuru" /></div>
+                <div><img src="images/ziede.png" alt="Žiedė" /></div>
+                <div><img src="images/nauja-oda.png" alt="Nauja Oda" /></div>
+                <div><img src="images/Collistar.png" alt="Collistar" /></div>
+                <div><img src="images/moonmart.png.webp" alt="Moonmart" /></div>
+                <div><img src="images/ellips_hair_vit.png" alt="Ellips Hair Vitamins" /></div>
+                <div><img src="images/AstraAi.png" alt="Astra AI" /></div>
+                <div><img src="images/magic.png" alt="Magic" /></div>
+                <div><img src="images/menique.png.webp" alt="Menique" /></div>
+                <div><img src="images/aconitum_logo.png.webp" alt="Aconitum" /></div>
+                <div><img src="images/amortest.png" alt="Amortest" /></div>
+                <div><img src="images/Ausrines-logo-juoda.png.webp" alt="Aušrinės" /></div>
+                <div><img src="images/CITYSHEEP.png.webp" alt="Citysheep" /></div>
+                <div><img src="images/coconut.png.webp" alt="Coconut" /></div>
+                <div><img src="images/herboxa_black.webp" alt="Herboxa" /></div>
+                <div><img src="images/her_surprise.png" alt="Her Surprise" /></div>
+                <div><img src="images/IsaDora.png" alt="IsaDora" /></div>
+                <div><img src="images/kakavos-romanas.png" alt="Kakavos Romanas" /></div>
+                <div><img src="images/kong-stay.png" alt="Kong Stay" /></div>
+                <div><img src="images/kvapnus-papuosalai.jpeg" alt="Kvapnūs Papuošalai" /></div>
+                <div><img src="images/SKINSHOP.png" alt="Skinshop" /></div>
+                <div><img src="images/klipshop.png" alt="Klipshop" /></div>
+                <div><img src="images/mrwoo.png" alt="Mr. Woo" /></div>
+                <div><img src="images/lemuse.png" alt="LeMuse" /></div>
+                <div><img src="images/Sweetroll.png.webp" alt="Sweetroll" /></div>
+                <div><img src="images/wosome.jpg.webp" alt="Wosome" /></div>
+            </div>
+            <!-- Dubliuotas logotipų rinkinys sklandžiam perėjimui -->
+            <div class="flex items-center gap-16 pr-16 shrink-0" aria-hidden="true">
+                <div><img src="images/Vision-express.svg.png" alt="" /></div>
+                <div><img src="images/PerlasGo.png" alt="" /></div>
+                <div><img src="images/kilo.healts.png" alt="" /></div>
+                <div><img src="images/Lumene.png" alt="" /></div>
+                <div><img src="images/air-guru.png" alt="" /></div>
+                <div><img src="images/ziede.png" alt="" /></div>
+                <div><img src="images/nauja-oda.png" alt="" /></div>
+                <div><img src="images/Collistar.png" alt="" /></div>
+                <div><img src="images/moonmart.png.webp" alt="" /></div>
+                <div><img src="images/ellips_hair_vit.png" alt="" /></div>
+                <div><img src="images/AstraAi.png" alt="" /></div>
+                <div><img src="images/magic.png" alt="" /></div>
+                <div><img src="images/menique.png.webp" alt="" /></div>
+                <div><img src="images/aconitum_logo.png.webp" alt="" /></div>
+                <div><img src="images/amortest.png" alt="" /></div>
+                <div><img src="images/Ausrines-logo-juoda.png.webp" alt="" /></div>
+                <div><img src="images/CITYSHEEP.png.webp" alt="" /></div>
+                <div><img src="images/coconut.png.webp" alt="" /></div>
+                <div><img src="images/herboxa_black.webp" alt="" /></div>
+                <div><img src="images/her_surprise.png" alt="" /></div>
+                <div><img src="images/IsaDora.png" alt="" /></div>
+                <div><img src="images/kakavos-romanas.png" alt="" /></div>
+                <div><img src="images/kong-stay.png" alt="" /></div>
+                <div><img src="images/kvapnus-papuosalai.jpeg" alt="" /></div>
+                <div><img src="images/SKINSHOP.png" alt="" /></div>
+                <div><img src="images/klipshop.png" alt="" /></div>
+                <div><img src="images/mrwoo.png" alt="" /></div>
+                <div><img src="images/lemuse.png" alt="" /></div>
+                <div><img src="images/Sweetroll.png.webp" alt="" /></div>
+                <div><img src="images/wosome.jpg.webp" alt="" /></div>
+            </div>
+        </div>
+    </div>
 
-   <!-- PREKIŲ ŽENKLŲ LOGOTIPŲ TICKER'IS -->
-   <div class="w-full bg-champagne py-6 overflow-hidden border-y border-champagne-dark/40 brand-slider">
-       <div class="animate-marquee whitespace-nowrap flex items-center max-height-80px gap-16">
-           <!-- Pirmas logotipų rinkinys -->
-            <div><img src="images/Vision-express.svg.png" alt="" /></div>
-            <div><img src="images/PerlasGo.png" alt="" /></div>
-            <div><img src="images/kilo.healts.png" alt="" /></div>
-            <div><img src="images/Lumene.png" alt="" /></div>
-            <div><img src="images/air-guru.png" alt="" /></div>
-            <div><img src="images/ziede.png" alt="" /></div>
-            <div><img src="images/nauja-oda.png" alt="" /></div>
-            <div><img src="images/Collistar.png" alt="" /></div>
-            <div><img src="images/moonmart.png.webp" alt="" /></div>
-            <div><img src="images/ellips_hair_vit.png" alt="ellips hair vitamins" /></div>
-            <div><img src="images/AstraAi.png" alt="ellips hair vitamins" /></div>
-            <div><img src="images/magic.png" alt="" /></div>
-            <div><img src="images/menique.png.webp" alt="" /></div>
-            <div><img src="images/aconitum_logo.png.webp" alt="" /></div>
-            <div><img src="images/amortest.png" alt="" /></div>
-            <div><img src="images/Ausrines-logo-juoda.png.webp" alt="" /></div>
-            <div><img src="images/CITYSHEEP.png.webp" alt="" /></div>
-            <div><img src="images/coconut.png.webp" alt="" /></div>
-            <div><img src="images/herboxa_black.webp" alt="" /></div>
-            <div><img src="images/her_surprise.png" alt="" /></div>
-            <div><img src="images/IsaDora.png" alt="" /></div>
-            <div><img src="images/kakavos-romanas.png" alt="" /></div>
-            <div><img src="images/kong-stay.png" alt="" /></div>
-            <div><img src="images/kvapnus-papuosalai.jpeg" alt="" /></div>
-            <div><img src="images/SKINSHOP.png" alt="" /></div>
-            <div><img src="images/klipshop.png" alt="" /></div>
-            <div><img src="images/mrwoo.png" alt="" /></div>
-            <div><img src="images/lemuse.png" alt="" /></div>
-            <div><img src="images/Sweetroll.png.webp" alt="" /></div>
-            <div><img src="images/wosome.jpg.webp" alt="" /></div>
-          
-       </div>
-   </div>
+    <!-- ABOUT ME SEKCIJA -->
+    <section id="about" class="bg-champagne/30 py-24 border-b border-champagne-dark/30">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <h2 class="text-4xl font-bold tracking-widest text-wine font-serif">About Me</h2>
+            </div>
 
+            <!-- Trijų kortelių išdėstymas -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Kortelė 1 -->
+                <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
+                    <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
+                        <img src="images/LithBasCreative-1.jpg" alt="Lithuanian-based creative" class="w-full h-full rounded-3xl object-cover">
+                    </div>
+                    <h4 class="text-lg font-bold text-charcoal">Lithuanian-based creative</h4>
+                    <p class="text-sm text-charcoal/70 leading-relaxed">
+                        I create high-performing, lifestyle-rooted UGC for beauty, wellness, and tech brands. Content that feels real, resonates deeply, and drives conversions.
+                    </p>
+                </div>
 
-   <!-- ABOUT ME SEKCIJA -->
-   <section id="about" class="bg-champagne/30 py-24 border-b border-champagne-dark/30">
-       <div class="max-w-6xl mx-auto px-6">
-           <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
-               <h2 class="text-4xl font-bold tracking-widest text-wine font-serif ">About Me</h2>
-           </div>
+                <!-- Kortelė 2 -->
+                <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
+                    <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
+                        <img src="images/ProActor.jpg" alt="Professional Actor, Model & Artist" class="w-full h-full rounded-3xl object-cover">
+                    </div>
+                    <h4 class="text-lg font-bold text-charcoal">Professional Actor, Model & Artist</h4>
+                    <p class="text-sm text-charcoal/70 leading-relaxed">
+                        My background in performing arts brings raw charisma, natural energy, and professional screen presence to every frame. I don’t just film—I perform and direct.
+                    </p>
+                </div>
 
+                <!-- Kortelė 3 -->
+                <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
+                    <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
+                        <img src="images/face_cry.png" alt="Cinema-quality UGC production team" class="w-full h-full rounded-3xl object-cover">
+                    </div>
+                    <h4 class="text-lg font-bold text-charcoal">Want your content EXTRA clean?</h4>
+                    <p class="text-xs text-charcoal/70 leading-relaxed">
+                        Let me assemble my pro team—videographers, actors, makeup artists, and editors—to elevate your vision into a cinema-quality campaign.
+                    </p>
+                    <p class="text-xs text-charcoal/70 leading-relaxed">
+                        Custom pricing applies.
+                    </p>
+                </div>
+            </div>
 
-           <!-- Trijų kortelių išdėstymas iš jūsų PDF -->
-           <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-               <!-- Kortelė 1 -->
-               <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
-                   <div class="w-50 h-50 rounded-full bg-champagne flex items-center justify-center text-wine">
-                       <img src="images/LithBasCreative-1.jpg" alt="Lithuanian Creator" class="w-full h-full rounded-3xl object-cover">
-                   </div>
-                   <h4 class="text-lg font-bold text-charcoal">Lithuanian-based creative</h4>
-                   <p class="text-sm text-charcoal/70 leading-relaxed">
-                       I create high-performing, lifestyle-rooted UGC for beauty, wellness, and tech brands. Content that feels real, resonates deeply, and drives conversions.
-                   </p>
-               </div>
+            <!-- Papildoma informacija -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Kortelė 4 -->
+                <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
+                    <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
+                        <img src="images/global.png" alt="Global Reach, Local Roots" class="w-full h-full rounded-3xl object-cover">
+                    </div>
+                    <div class="flex-1 space-y-2">
+                        <h4 class="font-bold text-lg text-charcoal">Global Reach, Local Roots</h4>
+                        <p class="text-xs text-charcoal/70 leading-relaxed">
+                            Languages: Fluent in EN & LT. Seamlessly adapted to your brand voice.<br />
+                            Location: Based in Lithuania, working worldwide (remote or on-location).
+                        </p>
+                    </div>
+                </div>
 
+                <!-- Kortelė 5 -->
+                <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
+                    <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
+                        <img src="images/chat.png" alt="5+ Years in Marketing & Video Production" class="w-full h-full rounded-3xl object-cover">
+                    </div>
+                    <div class="flex-1 space-y-2">
+                        <h4 class="font-bold text-lg text-charcoal">5+ Years in Marketing & Video Production</h4>
+                        <p class="text-sm text-charcoal/70 leading-relaxed">
+                            5+ Years in Marketing & Performing Arts<br />
+                            50+ Happy Clients & hundreds of successful videos<br />
+                            Guaranteed Results: Content that builds bulletproof brand trust.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-               <!-- Kortelė 2 -->
-               <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
-                   <div class="w-50 h-25 rounded-full bg-champagne flex items-center justify-center text-wine">
-                       <img src="images/ProActor.jpg" alt="Lithuanian Creator" class="w-full h-full rounded-3xl object-cover">
-                   </div>
-                   <h4 class="text-lg font-bold text-charcoal">Professional Actor, Model & Artist</h4>
-                   <p class="text-sm text-charcoal/70 leading-relaxed">
-                       My background in performing arts brings raw charisma, natural energy, and professional screen presence to every frame. I don’t just film—I perform and direct.
-                   </p>
-               </div>
-
-
-               <!-- Kortelė 3 -->
-               <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
-                   <div class="w-50 h-25 rounded-full bg-champagne flex items-center justify-center text-wine">
-                       <img src="images/face_cry.png" alt="Lithuanian Creator" class="w-full h-full rounded-3xl object-cover">
-                   </div>
-                   <h4 class="text-lg font-bold text-charcoal">Want your content EXTRA clean?</h4>
-                      <p class="text-xs text-charcoal/70 leading-relaxed">
-                           Let me assemble my pro team—videographers, actors, makeup artists, and editors—to elevate your vision into a cinema-quality campaign.
-                       </p>
-                       <p class="text-xs text-charcoal/70 leading-relaxed">
-                        Custom pricing applies.</p>
-               </div>
-           </div>
-
-
-           <!-- Papildoma informacija (Solo/Partner, Equipment) -->
-           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-               <!-- Kortelė 3 -->
-               <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
-                   <div class="w-50 h-25 rounded-full bg-champagne flex items-center justify-center text-wine">
-                       <img src="images/global.png" alt="Lithuanian Creator" class="w-full h-full rounded-3xl object-cover">
-                   </div>
-                   <div class="flex-1 space-y-2">
-                       <h4 class="font-bold text-lg text-charcoal">Global Reach, Local Roots</h4>
-                       <p class="text-xs text-charcoal/70 leading-relaxed">
-                        Languages: Fluent in EN & LT. Seamlessly adapted to your brand voice.<br />
-                        Location: Based in Lithuania, working worldwide (remote or on-location).</p>
-                   </div>
-               </div>
-
-
-               <!-- Įranga -->
-               <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
-                   <div class="w-50 h-25 rounded-full bg-champagne flex items-center justify-center text-wine">
-                       <img src="images/chat.png" alt="Lithuanian Creator" class="w-full h-full rounded-3xl object-cover">
-                   </div>
-                   <div class="flex-1 space-y-2">
-                       <h4 class="font-bold text-lg text-charcoal">5+ Years in Marketing & Video Production</h4>
-                       <p class="text-sm text-charcoal/70 leading-relaxed">5+ Years in Marketing & Performing Arts<br />
-                        50+ Happy Clients & hundreds of successful videos<br />
-                        Guaranteed Results: Content that builds bulletproof brand trust.</p>
-                   </div>
-               </div>
-           </div>
-
-
-       </div>
-   </section>
-
-
-   <!-- PORTFOLIO / VIDEO TINKLELIS -->
-   <section id="videos" class="max-w-6xl mx-auto px-6 py-24">
-       <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+    <!-- PORTFOLIO / VIDEO TINKLELIS -->
+    <section id="videos" class="max-w-6xl mx-auto px-6 py-24">
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
             <h2 class="text-4xl text-wine tracking-widest font-bold font-serif">Video</h2>
-       </div>
+        </div>
 
-
-       <!-- Video tinklelis -->
-       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          
-           <!-- 1 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
+        <!-- 1 eilė -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- 1 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/xz_JjoOLrkc?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            <iframe
+                                src="https://www.youtube.com/embed/xz_JjoOLrkc?autoplay=0&rel=0"
+                                title="Fashion / Clothing UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen>
                             </iframe>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Fashion / Clothing</span>
-               </div>
-           </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Fashion / Clothing</span>
+                </div>
+            </div>
+
+            <!-- 2 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/84lpYRwZ-xk?autoplay=0&rel=0"
+                                title="Travel / Hospitality UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Travel / Hospitality</span>
+                </div>
+            </div>
+
+            <!-- 3 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/B8rRHuuB2oQ?autoplay=0&rel=0"
+                                title="Wellness / Services UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Wellness / Services</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2 eilė -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- 4 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/BmDHSqV2jek?autoplay=0&rel=0"
+                                title="Travel / Hospitality UGC Video 2"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Travel / Hospitality</span>
+                </div>
+            </div>
+
+            <!-- 5 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/ObRzNUA3TIU?autoplay=0&rel=0"
+                                title="Beauty / Wellness UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness</span>
+                </div>
+            </div>
+
+            <!-- 6 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/sT2o0jeTotQ?autoplay=0&rel=0"
+                                title="Beauty UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3 eilė -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- 7 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/lTeHw27YJoM?autoplay=0&rel=0"
+                                title="Premium / EXTRA UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Premium / EXTRA</span>
+                </div>
+            </div>
+
+            <!-- 8 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/_AbeshE1JUc?autoplay=0&rel=0"
+                                title="Premium / EXTRA UGC Video 2"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Premium / EXTRA</span>
+                </div>
+            </div>
+
+            <!-- 9 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/I9i0BhdR_KU?autoplay=0&rel=0"
+                                title="Beauty / Wellness UGC Video 2"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 eilė -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- 10 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/GMshJEGoDiY?autoplay=0&rel=0"
+                                title="Fashion / Clothing UGC Video 2"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Fashion / Clothing</span>
+                </div>
+            </div>
+
+            <!-- 11 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/Xe3gIb4cEoo?autoplay=0&rel=0"
+                                title="Beauty / Wellness VO UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness VO</span>
+                </div>
+            </div>
+
+            <!-- 12 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/Bb1bwWqltdo?autoplay=0&rel=0"
+                                title="Beauty / Wellness VO UGC Video 2"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness VO</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5 eilė -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- 13 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/KBq_q7-s2ZQ?autoplay=0&rel=0"
+                                title="Beauty / Wellness VO UGC Video 3"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness VO</span>
+                </div>
+            </div>
+
+            <!-- 14 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/1pR8-YORPSQ?autoplay=0&rel=0"
+                                title="Travel / Lifestyle UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Travel / Lifestyle</span>
+                </div>
+            </div>
+
+            <!-- 15 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/bzIRlIJvx3w?autoplay=0&rel=0"
+                                title="Food UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Food</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6 eilė -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- 16 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/KtVPdENv1Uw?autoplay=0&rel=0"
+                                title="Beauty UGC Video 2"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty</span>
+                </div>
+            </div>
+
+            <!-- 17 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/zxlYC8X75C0?autoplay=0&rel=0"
+                                title="Wellness / Lifestyle UGC Video"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Wellness / Lifestyle</span>
+                </div>
+            </div>
+
+            <!-- 18 Video kortelė -->
+            <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
+                <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
+                    <div class="iphone-mockup">
+                        <div class="iphone-screen">
+                            <iframe
+                                src="https://www.youtube.com/embed/qoHsuSNPFAE?autoplay=0&rel=0"
+                                title="Beauty / Wellness UGC Video 3"
+                                loading="lazy"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 px-2">
+                    <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUOTRAUKŲ GALERIJA (Photography Examples) -->
+    <section id="photos" class="bg-champagne/40 py-24 border-t border-champagne-dark/30">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+                <h2 class="text-4xl text-wine font-serif font-bold tracking-widest">Photography Examples</h2>
+                <p>Authentic, lifestyle UGC photos designed to seamlessly complement your brand's content</p>
+            </div>
+
+            <!-- Nuotraukų tinklelis -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                <!-- 1 nuotrauka -->
+                <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                    <img src="images/IMG_1.jpg" alt="Beauty UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+                <!-- 2 nuotrauka -->
+                <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                    <img src="images/IMG_53.PNG" alt="Lifestyle UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+                <!-- 3 nuotrauka -->
+                <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                    <img src="images/IMG_1585.PNG" alt="Tech UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+                <!-- 4 nuotrauka -->
+                <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
+                    <img src="images/IMG_4992.jpg" alt="Wellness UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+            </div>
+        </div>
+    </section>
 
 
-           <!-- 2 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                        <div class="iphone-mockup">
-                            <div class="iphone-screen">
-                                <iframe 
-                                    src="https://www.youtube.com/embed/84lpYRwZ-xk?autoplay=0&rel=0" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowfullscreen>
-                                </iframe>
+    <!-- VIRAL REACH - HIGH-PERFORMING CONTENT KARUSELĖ -->
+    <section id="viral-reach" class="bg-champagne-light py-24 border-t border-champagne-dark/30">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div class="text-center md:text-left space-y-3 max-w-2xl">
+                    <div class="inline-flex items-center gap-2 bg-champagne px-3.5 py-1.5 rounded-full border border-champagne-dark/50">
+                        <span class="w-1.5 h-1.5 rounded-full bg-wine"></span>
+                        <span class="text-[10px] font-bold tracking-widest text-wine uppercase">Proven Results</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl text-wine font-serif font-bold tracking-wide">
+                        Viral Reach – High-Performing Content
+                    </h2>
+                    <p class="text-sm text-charcoal/70 leading-relaxed">
+                        Organic views, engagement, and real brand performance across TikTok &amp; Instagram Reels.
+                    </p>
+                </div>
+
+                <!-- Karuselės valdymo rodyklės -->
+                <div class="flex items-center justify-center md:justify-end gap-3 shrink-0">
+                    <button type="button" onclick="moveViralCarousel(-1)" aria-label="Previous screenshot" class="w-11 h-11 rounded-full bg-white border border-champagne-dark text-charcoal hover:bg-wine hover:text-white hover:border-wine transition flex items-center justify-center shadow-sm">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </button>
+                    <button type="button" onclick="moveViralCarousel(1)" aria-label="Next screenshot" class="w-11 h-11 rounded-full bg-white border border-champagne-dark text-charcoal hover:bg-wine hover:text-white hover:border-wine transition flex items-center justify-center shadow-sm">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Karuselės takelis -->
+            <div class="relative">
+                <div id="viral-carousel" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-4">
+                    <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
+                        <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
+                            <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
+                                <img src="images/IMG_4151.jpg" alt="Viral Reach Content Performance 1" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Travel / Hospitality</span>
-               </div>
-           </div>
-
-
-           <!-- 3 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                   <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/B8rRHuuB2oQ?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                    </div>
+                    <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
+                        <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
+                            <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
+                                <img src="images/IMG_4152.jpg" alt="Viral Reach Content Performance 2" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                            </div>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Wellness / Services</span>
-               </div>
-           </div>
-       </div>
-
-       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          
-           <!-- 4 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                    <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/BmDHSqV2jek?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                    <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
+                        <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
+                            <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
+                                <img src="images/IMG_4153.jpg" alt="Viral Reach Content Performance 3" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                            </div>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Travel / Hospitality</span>
-               </div>
-           </div>
-
-
-           <!-- 5 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                   <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/ObRzNUA3TIU?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                    <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
+                        <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
+                            <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
+                                <img src="images/IMG_4156.jpg" alt="Viral Reach Content Performance 4" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                            </div>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness</span>
-               </div>
-           </div>
-
-
-           <!-- 6 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                  <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/sT2o0jeTotQ?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                    <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
+                        <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
+                            <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
+                                <img src="images/IMG_4157.jpg" alt="Viral Reach Content Performance 5" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                            </div>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty</span>
-               </div>
-           </div>
-       </div>
-       
-       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          
-           <!-- 7 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                  <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/lTeHw27YJoM?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                    <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
+                        <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
+                            <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
+                                <img src="images/IMG_4158.jpg" alt="Viral Reach Content Performance 6" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                            </div>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Premium / EXTRA</span>
-               </div>
-           </div>
-
-
-           <!-- 8 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                 <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/_AbeshE1JUc?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                    <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
+                        <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
+                            <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
+                                <img src="images/IMG_4159.jpg" alt="Viral Reach Content Performance 7" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                            </div>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Premium / EXTRA</span>
-               </div>
-           </div>
-
-
-           <!-- 9 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                  <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/I9i0BhdR_KU?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                    <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
+                        <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
+                            <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
+                                <img src="images/IMG_4161.jpg" alt="Viral Reach Content Performance 8" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                            </div>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness</span>
-               </div>
-           </div>
-       </div>
-       
-       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          
-           <!-- 10 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                    <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/GMshJEGoDiY?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                </div>
+            </div>
+
+            <!-- Indikatoriai -->
+            <div class="flex items-center justify-center gap-2 mt-6">
+                <button type="button" onclick="scrollViralTo(0)" aria-label="Go to slide 1" class="viral-dot h-2 rounded-full transition-all duration-300 bg-wine w-6"></button>
+                <button type="button" onclick="scrollViralTo(1)" aria-label="Go to slide 2" class="viral-dot h-2 rounded-full transition-all duration-300 bg-champagne-dark w-2 hover:bg-wine/50"></button>
+                <button type="button" onclick="scrollViralTo(2)" aria-label="Go to slide 3" class="viral-dot h-2 rounded-full transition-all duration-300 bg-champagne-dark w-2 hover:bg-wine/50"></button>
+                <button type="button" onclick="scrollViralTo(3)" aria-label="Go to slide 4" class="viral-dot h-2 rounded-full transition-all duration-300 bg-champagne-dark w-2 hover:bg-wine/50"></button>
+                <button type="button" onclick="scrollViralTo(4)" aria-label="Go to slide 5" class="viral-dot h-2 rounded-full transition-all duration-300 bg-champagne-dark w-2 hover:bg-wine/50"></button>
+                <button type="button" onclick="scrollViralTo(5)" aria-label="Go to slide 6" class="viral-dot h-2 rounded-full transition-all duration-300 bg-champagne-dark w-2 hover:bg-wine/50"></button>
+                <button type="button" onclick="scrollViralTo(6)" aria-label="Go to slide 7" class="viral-dot h-2 rounded-full transition-all duration-300 bg-champagne-dark w-2 hover:bg-wine/50"></button>
+                <button type="button" onclick="scrollViralTo(7)" aria-label="Go to slide 8" class="viral-dot h-2 rounded-full transition-all duration-300 bg-champagne-dark w-2 hover:bg-wine/50"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- WORKFLOW SEKCIJA (Interaktyvus akordeonas) -->
+    <section id="workflow" class="max-w-4xl mx-auto px-6 py-24">
+        <div class="text-center mb-16 space-y-4">
+            <h2 class="text-4xl text-wine font-serif font-bold">Workflow</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
+            <!-- Akordeonų pusė -->
+            <div class="md:col-span-3 space-y-4">
+                <!-- 1 Žingsnis -->
+                <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                    <button onclick="toggleAccordion(this, 'step1-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                        <span>1. Establish a Creative Vision (Briefing)</span>
+                        <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                        <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
+                            <p>We align on your goals via a quick questionnaire, email, or a Zoom call.</p>
+                            <p class="text-xs text-charcoal/60">Whether you already have a strict brief and script, or need me to develop the creative concept and script from scratch – I've got you covered.</p>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Fashion / Clothing</span>
-               </div>
-           </div>
+                </div>
 
-
-           <!-- 11 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                   <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/Xe3gIb4cEoo?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                <!-- 2 Žingsnis -->
+                <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                    <button onclick="toggleAccordion(this, 'step2-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                        <span>2. Agreement & Deposit</span>
+                        <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                        <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
+                            <p>To lock in the project, we sign a contract and outline the exact deliverables.</p>
+                            <p class="text-xs text-charcoal/60">A 50% upfront deposit is required to begin, and the remaining 50% is paid upon final approval of the content.</p>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness VO</span>
-               </div>
-           </div>
+                </div>
 
-
-           <!-- 12 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                  <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/Bb1bwWqltdo?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
+                <!-- 3 Žingsnis -->
+                <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                    <button onclick="toggleAccordion(this, 'step3-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                        <span>3. Production & Delivery</span>
+                        <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                        <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
+                            <ul class="space-y-1 list-disc list-inside text-xs text-charcoal/70">
+                                <li><strong>Turnaround:</strong> First drafts are delivered within 10 business days after receiving the products.</li>
+                                <li><strong>Revisions:</strong> Included edits will be reviewed and adjusted to perfection.</li>
+                                <li><strong>Delivery:</strong> Final high-quality files are sent via Google Drive or WeTransfer.</li>
+                            </ul>
                         </div>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness VO</span>
-               </div>
-           </div>
-       </div>
-       
-       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          
-           <!-- 13 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                    <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/KBq_q7-s2ZQ?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+                </div>
+            </div>
+
+            <!-- Iliustracija -->
+            <div class="md:col-span-2 flex justify-center">
+                <div class="w-full h-80 rounded-3xl overflow-hidden border border-champagne-dark bg-champagne-dark relative">
+                    <img id="workflow-img" src="images/workflow.jpg" alt="Workflow" class="w-full h-full object-cover transition-opacity duration-300">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KLAUSIMAI IR ATSAKYMAI (FAQ) -->
+    <section id="faq" class="max-w-4xl mx-auto px-6 py-24 border-t border-champagne-dark/30">
+        <div class="text-center mb-16 space-y-4">
+            <h2 class="text-4xl text-wine font-serif font-bold">FAQ's</h2>
+        </div>
+
+        <div class="space-y-4">
+            <!-- 1 Klausimas -->
+            <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                    <span>What services do you offer?</span>
+                    <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+                </button>
+                <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                    <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                        I create high-performing short-form UGC videos (concept, scripting, filming, and editing) and product photography. For high-end campaigns, I also offer Premium Production packages, where I assemble a professional team – including videographers, photographers, and makeup artists – to deliver cinema-quality commercial content.
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty / Wellness VO</span>
-               </div>
-           </div>
+                </div>
+            </div>
 
-
-           <!-- 14 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                   <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/1pR8-YORPSQ?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+            <!-- 2 Klausimas -->
+            <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                    <span>Do you handle the concept and script, or do I provide them?</span>
+                    <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+                </button>
+                <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                    <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                        Both! I can work directly from your existing brief and script, or I can develop the full creative concept, hook, and storyboard from scratch based on your marketing goals.
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Travel / Lifestyle</span>
-               </div>
-           </div>
+                </div>
+            </div>
 
-
-           <!-- 15 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                  <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/bzIRlIJvx3w?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+            <!-- 3 Klausimas -->
+            <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                    <span>What types of content do you create?</span>
+                    <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+                </button>
+                <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                    <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                        I specialize in lifestyle, beauty, wellness, and tech. My content styles include organic product presentations, aesthetic reviews, unboxings, tutorials, ASMR, lifestyle vlogs, and direct-response ads/testimonials. All content can be tailored with or without voiceovers and is optimized for TikTok, Instagram Reels, and YouTube Shorts.
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Food</span>
-               </div>
-           </div>
-       </div>
-       
-       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-           <!-- 16 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                    <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/KtVPdENv1Uw?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+                </div>
+            </div>
+
+            <!-- 4 Klausimas -->
+            <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                    <span>Do you offer monthly retainers or packages?</span>
+                    <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+                </button>
+                <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                    <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                        Yes. I offer single-video options, content bundles, and monthly retainers for brands looking for a consistent, long-term content partner to scale their social media presence.
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty</span>
-               </div>
-           </div>
+                </div>
+            </div>
 
-
-           <!-- 17 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                   <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/zxlYC8X75C0?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+            <!-- 5 Klausimas -->
+            <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                    <span>What extras or add-ons do you provide?</span>
+                    <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+                </button>
+                <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                    <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                        You can customize your package with add-ons such as raw footage (b-roll), whitelisting/paid ad usage rights, extra product photos, faster turnaround times, or additional rounds of revisions.
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Wellness / Lifestyle</span>
-               </div>
-           </div>
+                </div>
+            </div>
 
-
-           <!-- 18 Video kortelė -->
-           <div class="bg-white rounded-3xl p-7 border border-champagne-dark shadow-sm hover:shadow-md transition">
-               <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
-                   <!-- 🔴 ČIA ĮKELKITE SAVO VIDEO (Pakeiskite 'src' atributą savo video failo keliu) -->
-                  <div class="iphone-mockup">
-                        <div class="iphone-screen">
-                            <iframe 
-                                src="https://www.youtube.com/embed/qoHsuSNPFAE?autoplay=0&rel=0" 
-                                frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+            <!-- 6 Klausimas -->
+            <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                    <span>What are your rates and pricing structure?</span>
+                    <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+                </button>
+                <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                    <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                        My pricing is transparent and scales with your project needs (with better rates available when booking content bundles):
+                        <ul class="list-disc list-inside mt-2 space-y-1 text-sm">
+                            <li><strong>Individual UGC Videos:</strong> Start at €200</li>
+                            <li><strong>Content Bundles:</strong> Start at €350</li>
+                            <li><strong>Premium Team Production Packages:</strong> Pricing is upon request, starting from €400 per video (depending on the crew size and project scope).</li>
+                        </ul>
                     </div>
-               </div>
-               <div class="mt-4 px-2">
-                   <span class="text-[10px] font-bold text-wine tracking-widest uppercase bg-wine/10 px-2 py-1 rounded">Beauty /  Wellness</span>
-               </div>
-           </div>
-       </div>
-   </section>
+                </div>
+            </div>
 
+            <!-- 7 Klausimas -->
+            <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
+                <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
+                    <span>What is your content creation process?</span>
+                    <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
+                </button>
+                <div class="accordion-content max-h-0 overflow-hidden opacity-0">
+                    <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
+                        We begin with a brief questionnaire, email, or a quick discovery call to align on your vision. Once the details are locked in and the products arrive, I handle the scripting, filming, and editing. First drafts are typically delivered within 10 business days. Revisions are then discussed and polished to your satisfaction.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-   <!-- NUOTRAUKŲ GALERIJA (Photography Examples) -->
-   <section id="photos" class="bg-champagne/40 py-24 border-t border-champagne-dark/30">
-       <div class="max-w-6xl mx-auto px-6">
-           <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
-               <h2 class="text-4xl text-wine font-serif font-bold tracking-widest">Photography Examples</h2>
-               <p>Authentic, lifestyle UGC photos designed to seamlessly complement your brand's content</p>
-           </div>
+    <!-- KONTAKTAI (Ready to create together?) -->
+    <section id="contact" class="bg-champagne py-24 border-t border-champagne-dark/30">
+        <div class="max-w-2xl mx-auto px-6 text-center space-y-8">
+            <h2 class="text-4xl text-charcoal leading-tight">Ready to create together?</h2>
+            <p class="text-charcoal/70 max-w-lg mx-auto leading-relaxed">
+                Let's discuss how I can help bring your brand's story to life through authentic UGC content.
+            </p>
 
+            <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white font-bold px-8 py-4 rounded-full hover:bg-wine-light transition shadow-lg shadow-wine/20 text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-envelope"></i> Send me an email
+                </a>
+                <a href="https://www.instagram.com/baltavakare?igsh=c3RyMW91cjY3aGk0&utm_source=qr" target="_blank" rel="noopener noreferrer" class="bg-white border border-champagne-dark text-charcoal hover:bg-champagne font-bold px-8 py-4 rounded-full transition text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-instagram"></i> Follow on Instagram
+                </a>
+            </div>
 
-           <!-- Nuotraukų tinklelis -->
-           <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-               <!-- 1 nuotrauka -->
-               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
-                   <img src="images/IMG_1.jpg" alt="Beauty UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-               </div>
-               <!-- 2 nuotrauka -->
-               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
-                   <img src="images/IMG_53.PNG" alt="Lifestyle UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-               </div>
-               <!-- 3 nuotrauka -->
-               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
-                   <img src="images/IMG_1585.PNG" alt="Tech UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-               </div>
-               <!-- 4 nuotrauka -->
-               <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
-                   <img src="images/IMG_4992.jpg" alt="Wellness UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-               </div>
-           </div>
-       </div>
-   </section>
+            <!-- Kontaktiniai Duomenys -->
+            <div class="pt-10 flex flex-wrap justify-center gap-8 text-xs font-semibold text-charcoal/60 uppercase tracking-widest">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-envelope text-wine"></i>
+                    <span class="normal-case">vakarebaltauskaite@gmail.com</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-wine"></i>
+                    <span>Lithuania</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-globe text-wine"></i>
+                    <span>Available globally</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- FOOTERIS -->
+    <footer class="bg-charcoal text-champagne/60 py-12 text-sm border-t border-charcoal/90">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+                <p class="font-extrabold text-base tracking-wider text-white">VAKARĖ <span class="font-light text-champagne/80">| UGC</span></p>
+                <p class="text-xs text-champagne/40 mt-1">&copy; 2026 Vakarė UGC. Visos teisės saugomos.</p>
+            </div>
+            <div class="flex space-x-6 text-lg">
+                <a href="https://www.facebook.com/baltavakare" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/baltavakare?igsh=c3RyMW91cjY3aGk0&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="mailto:vakarebaltauskaite@gmail.com" aria-label="Email" class="hover:text-white transition"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
 
-   <!-- WORKFLOW SEKCIJA (Interaktyvus akordeonas) -->
-   <section id="workflow" class="max-w-4xl mx-auto px-6 py-24">
-       <div class="text-center mb-16 space-y-4">
-           <h2 class="text-4xl text-wine font-serif font-bold">Workflow</h2>
-       </div>
+    <!-- INTERAKTYVIŲ DETALIŲ JAVASCRIPT LOGIKA -->
+    <script>
+        // Mobilaus meniu perjungimas
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
 
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                mobileMenu.classList.toggle('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', String(isHidden));
+                if (isHidden) {
+                    mobileMenuIcon.classList.remove('fa-bars');
+                    mobileMenuIcon.classList.add('fa-xmark');
+                } else {
+                    mobileMenuIcon.classList.remove('fa-xmark');
+                    mobileMenuIcon.classList.add('fa-bars');
+                }
+            });
 
-       <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-center">
-           <!-- Akordeonų pusė -->
-           <div class="md:col-span-3 space-y-4">
-              
-               <!-- 1 Žingsnis -->
-               <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-                   <button onclick="toggleAccordion(this, 'step1-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                       <span>1. Establish a Creative Vision (Briefing)</span>
-                       <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
-                   </button>
-                   <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                       <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
-                           <p>We align on your goals via a quick questionnaire, email, or a Zoom call.</p>
-                           <p class="text-xs text-charcoal/60">Whether you already have a strict brief and script, or need me to develop the creative concept and script from scratch – I've got you covered.</p>
-                       </div>
-                   </div>
-               </div>
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    mobileMenuIcon.classList.remove('fa-xmark');
+                    mobileMenuIcon.classList.add('fa-bars');
+                });
+            });
+        }
 
+        // D.U.K. akordeono logika
+        function toggleFAQ(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.faq-icon');
 
-               <!-- 2 Žingsnis -->
-               <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-                   <button onclick="toggleAccordion(this, 'step2-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                       <span>2. Agreement & Deposit</span>
-                       <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
-                   </button>
-                   <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                       <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
-                           <p>To lock in the project, we sign a contract and outline the exact deliverables.</p>
-                           <p class="text-xs text-charcoal/60">A 50% upfront deposit is required to begin, and the remaining 50% is paid upon final approval of the content.</p>
-                       </div>
-                   </div>
-               </div>
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.style.transform = 'rotate(0deg)';
+                button.classList.remove('bg-champagne/20');
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                content.style.opacity = '1';
+                icon.style.transform = 'rotate(180deg)';
+                button.classList.add('bg-champagne/20');
+            }
+        }
 
+        // Workflow akordeono logika
+        function toggleAccordion(button, step) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('.accordion-icon');
+            const img = document.getElementById('workflow-img');
 
-               <!-- 3 Žingsnis -->
-               <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-                   <button onclick="toggleAccordion(this, 'step4-img')" class="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-bold text-base text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                       <span>3.Production & Delivery</span>
-                       <i class="fa-solid fa-plus text-wine accordion-icon transition duration-300"></i>
-                   </button>
-                   <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                       <div class="px-6 pb-5 text-charcoal/80 leading-relaxed text-sm border-t border-champagne-light pt-4 space-y-2">
-                           <ul class="space-y-1 list-disc list-inside text-xs text-charcoal/70">
-                               <li><strong>Turnaround:</strong> First drafts are delivered within 10 business days after receiving the products.</li>
-                               <li><strong>Revisions:</strong> Included edits will be reviewed and adjusted to perfection.</li>
-                               <li><strong>Delivery:</strong> Final high-quality files are sent via Google Drive or WeTransfer.</li>
-                           </ul>
-                       </div>
-                   </div>
-               </div>
+            const images = {
+                'step1-img': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80',
+                'step2-img': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&q=80',
+                'step3-img': 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=80'
+            };
 
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.classList.remove('fa-minus');
+                icon.classList.add('fa-plus');
+                button.classList.remove('bg-champagne/20');
+            } else {
+                // Uždaryti kitus workflow akordeonus
+                const container = button.closest('.space-y-4');
+                const allAccordions = container.querySelectorAll('.accordion-content');
+                const allIcons = container.querySelectorAll('.accordion-icon');
+                const allButtons = container.querySelectorAll('button');
 
-           </div>
+                allAccordions.forEach(acc => { acc.style.maxHeight = '0px'; acc.style.opacity = '0'; });
+                allIcons.forEach(ic => { ic.classList.remove('fa-minus'); ic.classList.add('fa-plus'); });
+                allButtons.forEach(btn => btn.classList.remove('bg-champagne/20'));
 
+                // Atidaryti aktyvų
+                content.style.maxHeight = content.scrollHeight + 'px';
+                content.style.opacity = '1';
+                icon.classList.remove('fa-plus');
+                icon.classList.add('fa-minus');
+                button.classList.add('bg-champagne/20');
 
-           <!-- Iliustracija, kuri keičiasi arba lieka estetiška fone -->
-           <div class="md:col-span-2 flex justify-center">
-               <div class="w-full h-80 rounded-3xl overflow-hidden border border-champagne-dark bg-champagne-dark relative">
-                   <img id="workflow-img" src="images/workflow.jpg" alt="Workflow" class="w-full h-full object-cover transition-opacity duration-300">
-               </div>
-           </div>
-       </div>
-   </section>
-
-
-   <!-- KLAUSIMAI IR ATSAKYMAI (FAQ) -->
-   <section id="faq" class="max-w-4xl mx-auto px-6 py-24 border-t border-champagne-dark/30">
-       <div class="text-center mb-16 space-y-4">
-           <h2 class="text-4xl text-wine font-serif font-bold">FAQ's</h2>
-       </div>
-
-
-       <div class="space-y-4">
-          
-           <!-- 1 Klausimas -->
-           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                   <span>What services do you offer?</span>
-                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
-               </button>
-               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
-                       I create high-performing short-form UGC videos (concept, scripting, filming, and editing) and product photography. For high-end campaigns, I also offer Premium Production packages, where I assemble a professional team – including videographers, photographers, and makeup artists – to deliver cinema-quality commercial content.
-                   </div>
-               </div>
-           </div>
-
-
-           <!-- 2 Klausimas -->
-           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                   <span>Do you handle the concept and script, or do I provide them?</span>
-                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
-               </button>
-               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
-                       Both! I can work directly from your existing brief and script, or I can develop the full creative concept, hook, and storyboard from scratch based on your marketing goals.
-                   </div>
-               </div>
-           </div>
-
-
-           <!-- 3 Klausimas -->
-           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                   <span>What types of content do you create?</span>
-                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
-               </button>
-               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
-                       I specialize in lifestyle, beauty, wellness, and tech. My content styles include organic product presentations, aesthetic reviews, unboxings, tutorials, ASMR, lifestyle vlogs, and direct-response ads/testimonials. All content can be tailored with or without voiceovers and is optimized for TikTok, Instagram Reels, and YouTube Shorts.
-                   </div>
-               </div>
-           </div>
-
-
-           <!-- 4 Klausimas -->
-           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                   <span>Do you offer monthly retainers or packages?</span>
-                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
-               </button>
-               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
-                       Yes. I offer single-video options, content bundles, and monthly retainers for brands looking for a consistent, long-term content partner to scale their social media presence.
-                   </div>
-               </div>
-           </div>
-
-
-           <!-- 5 Klausimas -->
-           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                   <span>What extras or add-ons do you provide?</span>
-                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
-               </button>
-               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
-                       You can customize your package with add-ons such as raw footage (b-roll), whitelisting/paid ad usage rights, extra product photos, faster turnaround times, or additional rounds of revisions.
-                   </div>
-               </div>
-           </div>
-
-
-           <!-- 6 Klausimas -->
-           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                   <span>What are your rates and pricing structure?</span>
-                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
-               </button>
-               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
-                       My pricing is transparent and scales with your project needs (with better rates available when booking content bundles):
-                       <ul class="list-disc list-inside mt-2 space-y-1 text-sm">
-                           <li><strong>Individual UGC Videos:</strong> Start at €200</li>
-                           <li><strong>Content Bundles:</strong> Start at €350</li>
-                           <li><strong>Premium Team Production Packages:</strong> Pricing is upon request, starting from €400 per video (depending on the crew size and project scope).</li>
-                       </ul>
-                   </div>
-               </div>
-           </div>
-
-
-           <!-- 7 Klausimas -->
-           <div class="bg-white border border-champagne-dark rounded-2xl overflow-hidden transition">
-               <button onclick="toggleFAQ(this)" class="w-full px-8 py-6 text-left flex items-center justify-between gap-4 font-bold text-lg text-charcoal hover:bg-champagne/30 transition focus:outline-none">
-                   <span>What is your content creation process?</span>
-                   <i class="fa-solid fa-chevron-down text-wine faq-icon transition duration-300"></i>
-               </button>
-               <div class="accordion-content max-h-0 overflow-hidden opacity-0">
-                   <div class="px-8 pb-6 text-charcoal/80 leading-relaxed text-base border-t border-champagne-light pt-4">
-                       We begin with a brief questionnaire, email, or a quick discovery call to align on your vision. Once the details are locked in and the products arrive, I handle the scripting, filming, and editing. First drafts are typically delivered within 10 business days. Revisions are then discussed and polished to your satisfaction.
-                   </div>
-               </div>
-           </div>
-
-       </div>
-   </section>
-
-
-   <!-- KONTAKTAI (Ready to create together?) -->
-   <section id="contact" class="bg-champagne py-24 border-t border-champagne-dark/30">
-       <div class="max-w-2xl mx-auto px-6 text-center space-y-8">
-           <h2 class="text-4xl text-charcoal leading-tight">Ready to create together?</h2>
-           <p class="text-charcoal/70 max-w-lg mx-auto leading-relaxed">
-               Let's discuss how I can help bring your brand's story to life through authentic UGC content.
-           </p>
-
-
-           <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-               <a href="mailto:vakarebaltauskaite@gmail.com" class="bg-wine text-white font-bold px-8 py-4 rounded-full hover:bg-wine-light transition shadow-lg shadow-wine/20 text-sm flex items-center justify-center gap-2">
-                   <i class="fa-solid fa-envelope"></i> Send me an email
-               </a>
-               <a href="https://www.instagram.com/baltavakare?igsh=c3RyMW91cjY3aGk0&utm_source=qr" target="_blank" class="bg-white border border-champagne-dark text-charcoal hover:bg-champagne font-bold px-8 py-4 rounded-full transition text-sm flex items-center justify-center gap-2">
-                   <i class="fa-brands fa-instagram"></i> Follow on Instagram
-               </a>
-           </div>
-
-
-           <!-- Kontaktiniai Duomenys -->
-           <div class="pt-10 flex flex-wrap justify-center gap-8 text-xs font-semibold text-charcoal/60 uppercase tracking-widest">
-               <div class="flex items-center gap-2">
-                   <i class="fa-solid fa-envelope text-wine"></i>
-                   <span class="normal-case">vakarebaltauskaite@gmail.com</span>
-               </div>
-               <div class="flex items-center gap-2">
-                   <i class="fa-solid fa-location-dot text-wine"></i>
-                   <span>Lithuania</span>
-               </div>
-               <div class="flex items-center gap-2">
-                   <i class="fa-solid fa-globe text-wine"></i>
-                   <span>Available globally</span>
-               </div>
-           </div>
-       </div>
-   </section>
-
-
-   <!-- FOOTERIS -->
-   <footer class="bg-charcoal text-champagne/60 py-12 text-sm border-t border-charcoal/90">
-       <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-           <div>
-               <p class="font-extrabold text-base tracking-wider text-white">VAKARĖ <span class="font-light text-champagne/80">| UGC</span></p>
-               <p class="text-xs text-champagne/40 mt-1">&copy; 2026 Vakarė UGC. Visos teisės saugomos.</p>
-           </div>
-           <div class="flex space-x-6 text-lg">
-               <a href="https://www.facebook.com/baltavakare" class="hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
-               <a href="https://www.instagram.com/baltavakare?igsh=c3RyMW91cjY3aGk0&utm_source=qr" target="_blank" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
-               <a href="mailto:vakarebaltauskaite@gmail.com" class="hover:text-white transition"><i class="fa-solid fa-envelope"></i></a>
-           </div>
-       </div>
-   </footer>
-
-
-   <!-- INTERAKTYVIŲ DETALIŲ JAVASCRIPT LOGIKA -->
-   <script>
-       // D.U.K. akordeono logika
-       function toggleFAQ(button) {
-           const content = button.nextElementSibling;
-           const icon = button.querySelector('.faq-icon');
-          
-           if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-               content.style.maxHeight = '0px';
-               content.style.opacity = '0';
-               icon.style.transform = 'rotate(0deg)';
-               button.classList.remove('bg-champagne/20');
-           } else {
-               content.style.maxHeight = content.scrollHeight + 'px';
-               content.style.opacity = '1';
-               icon.style.transform = 'rotate(180deg)';
-               button.classList.add('bg-champagne/20');
-           }
-       }
-
-
-       // Workflow akordeono logika, kuri papildomai keičia fono iliustraciją
-       function toggleAccordion(button, step) {
-           const content = button.nextElementSibling;
-           const icon = button.querySelector('.accordion-icon');
-           const img = document.getElementById('workflow-img');
-
-
-           // Vaizdų keitimo priskyrimas pagal pasirinktą žingsnį
-           const images = {
-               'step1-img': 's://images.unsplashttph.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80',
-               'step2-img': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&q=80',
-               'step3-img': 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=80',
-               'step4-img': 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80'
-           };
-          
-           if (content.style.maxHeight && content.style.maxHeight !== '0px') {
-               content.style.maxHeight = '0px';
-               content.style.opacity = '0';
-               icon.classList.remove('fa-minus');
-               icon.classList.add('fa-plus');
-               button.classList.remove('bg-champagne/20');
-           } else {
-               // Uždaryti kitus workflow akordeonus
-               const allAccordions = button.closest('.space-y-4').querySelectorAll('.accordion-content');
-               const allIcons = button.closest('.space-y-4').querySelectorAll('.accordion-icon');
-               const allButtons = button.closest('.space-y-4').querySelectorAll('button');
-              
-               allAccordions.forEach(acc => { acc.style.maxHeight = '0px'; acc.style.opacity = '0'; });
-               allIcons.forEach(ic => { ic.classList.remove('fa-minus'); ic.classList.add('fa-plus'); });
-               allButtons.forEach(btn => btn.classList.remove('bg-champagne/20'));
-
-
-               // Atidaryti aktyvų
-               content.style.maxHeight = content.scrollHeight + 'px';
-               content.style.opacity = '1';
-               icon.classList.remove('fa-plus');
-               icon.classList.add('fa-minus');
-               button.classList.add('bg-champagne/20');
-
-
-               // Pakeisti nuotrauką su švelniu pereinamumu
-               // img.style.opacity = '0';
-               // setTimeout(() => {
-               //     img.src = images[step] || images['step1-img'];
-               //     img.style.opacity = '1';
-               // }, 150);
-           }
-       }
-   </script>
-
-
+                // Atkomentuokite žemiau esančias eilutes, jei norite, kad pasikeistų dešinėje esanti nuotrauka:
+                // if (img && images[step]) {
+                //     img.style.opacity = '0';
+                //     setTimeout(() => {
+                //         img.src = images[step];
+                //         img.style.opacity = '1';
+                //     }, 150);
+                // }
+            }
+        }
+    </script>
 </body>
 </html>
-
