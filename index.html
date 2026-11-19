@@ -4,34 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vakarė | UGC Creator & Actor Portfolio</title>
-    <!-- Tailwind CSS per CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Plus Jakarta Sans (modernus sans-serif) ir Playfair Display (elegantiškas serif) -->
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="stylesheet" href="assets/css/main.css" />
+
+    <!-- Preconnects greitesniam šriftų ir YouTube miniatiūrų krovimui -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome piktogramoms -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
 
-    <!-- Tailwind spalvų konfigūracija priderinta prie jūsų pageidavimų -->
+    <!-- Tailwind CSS per CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome (neblokuojantis krovimas) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <!-- Tailwind spalvų konfigūracija -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         champagne: {
-                            light: '#FAF7F2', /* Šviesiausia šampano fono spalva */
-                            DEFAULT: '#F4ECE1', /* Vidutinė šampano spalva blokams */
-                            dark: '#EADFCF', /* Tamsesnė šešėliams/rėmeliams */
+                            light: '#FAF7F2',
+                            DEFAULT: '#F4ECE1',
+                            dark: '#EADFCF',
                         },
                         wine: {
-                            light: '#8A2534', /* Šviesesnė raudono vyno (hover būsenai) */
-                            DEFAULT: '#5E131E', /* Pagrindinė raudono vyno spalva mygtukams */
-                            dark: '#450B14', /* Tamsi vyno spalva tekstams */
+                            light: '#8A2534',
+                            DEFAULT: '#5E131E',
+                            dark: '#450B14',
                         },
-                        charcoal: '#221F1D', /* Švelni juoda tekstui */
+                        charcoal: '#221F1D',
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
@@ -40,62 +46,65 @@
                 }
             }
         }
-
-        // Viral Reach karuselės logika
-        const viralCarousel = document.getElementById('viral-carousel');
-        const viralDots = document.querySelectorAll('.viral-dot');
-
-        function updateViralDots() {
-            if (!viralCarousel || !viralDots.length) return;
-            const firstItem = viralCarousel.firstElementChild;
-            if (!firstItem) return;
-            const step = firstItem.offsetWidth + 24; // kortelės plotis + gap-6 (24px)
-            const maxScroll = viralCarousel.scrollWidth - viralCarousel.clientWidth;
-            let activeIndex = Math.round(viralCarousel.scrollLeft / step);
-            if (viralCarousel.scrollLeft >= maxScroll - 8) {
-                activeIndex = viralDots.length - 1;
-            }
-            activeIndex = Math.max(0, Math.min(activeIndex, viralDots.length - 1));
-
-            viralDots.forEach((dot, i) => {
-                if (i === activeIndex) {
-                    dot.classList.remove('bg-champagne-dark', 'w-2');
-                    dot.classList.add('bg-wine', 'w-6');
-                } else {
-                    dot.classList.remove('bg-wine', 'w-6');
-                    dot.classList.add('bg-champagne-dark', 'w-2');
-                }
-            });
-        }
-
-        function moveViralCarousel(direction) {
-            if (!viralCarousel) return;
-            const firstItem = viralCarousel.firstElementChild;
-            const step = firstItem ? firstItem.offsetWidth + 24 : 280;
-            const maxScroll = viralCarousel.scrollWidth - viralCarousel.clientWidth;
-
-            if (direction > 0 && viralCarousel.scrollLeft >= maxScroll - 8) {
-                viralCarousel.scrollTo({ left: 0, behavior: 'smooth' });
-            } else if (direction < 0 && viralCarousel.scrollLeft <= 8) {
-                viralCarousel.scrollTo({ left: maxScroll, behavior: 'smooth' });
-            } else {
-                viralCarousel.scrollBy({ left: direction * step, behavior: 'smooth' });
-            }
-        }
-
-        function scrollViralTo(index) {
-            if (!viralCarousel) return;
-            const firstItem = viralCarousel.firstElementChild;
-            const step = firstItem ? firstItem.offsetWidth + 24 : 280;
-            viralCarousel.scrollTo({ left: index * step, behavior: 'smooth' });
-        }
-
-        if (viralCarousel) {
-            viralCarousel.addEventListener('scroll', updateViralDots, { passive: true });
-        }
     </script>
 
     <style>
+        /* iPhone Mockup & Brand Slider styles (inlined for fewer HTTP requests) */
+        .iphone-mockup {
+            opacity: 1 !important;
+            position: relative;
+            z-index: 10;
+            width: 280px;
+            height: 560px;
+            border: 12px solid #222;
+            border-radius: 36px;
+            background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .iphone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background: #222;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 20;
+            pointer-events: none;
+        }
+        .iphone-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            position: relative;
+        }
+        .iphone-screen iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Brand Carousel Styles */
+        .brand-slider {
+            position: relative;
+            margin-top: -50px;
+            padding: 2em 0;
+        }
+        .brand-slider div img {
+            margin: 0 auto;
+            max-height: 80px;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+        }
+        .brand-slider div img:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
         /* Sklandus akordeono išskleidimo efektas */
         .accordion-content {
             transition: max-height 0.2s ease-out, opacity 0.2s ease-out;
@@ -110,6 +119,7 @@
             display: flex;
             width: max-content;
             animation: marquee 35s linear infinite;
+            will-change: transform;
         }
         .animate-marquee:hover {
             animation-play-state: paused;
@@ -122,6 +132,57 @@
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+
+        /* YouTube Lite Facade */
+        .yt-facade {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .yt-facade img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease, opacity 0.35s ease;
+            opacity: 0.92;
+        }
+        .yt-facade:hover img {
+            transform: scale(1.03);
+            opacity: 1;
+        }
+        .yt-play-btn {
+            position: absolute;
+            z-index: 15;
+            width: 60px;
+            height: 42px;
+            background-color: rgba(94, 19, 30, 0.92);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        .yt-facade:hover .yt-play-btn {
+            background-color: #8A2534;
+            transform: scale(1.08);
+        }
+        .yt-play-btn::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 9px 0 9px 16px;
+            border-color: transparent transparent transparent #FAF7F2;
+            margin-left: 3px;
         }
     </style>
 </head>
@@ -141,6 +202,7 @@
                 <a href="#about" class="hover:text-wine transition">About me</a>
                 <a href="#videos" class="hover:text-wine transition">Videos</a>
                 <a href="#photos" class="hover:text-wine transition">Photos</a>
+                <a href="#viral-reach" class="hover:text-wine transition">Results</a>
                 <a href="#workflow" class="hover:text-wine transition">Workflow</a>
                 <a href="https://vakarebaltauskaite.wixsite.com/baltavakare?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener noreferrer" class="hover:text-wine transition flex items-center gap-1">
                     Actor page <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
@@ -172,6 +234,7 @@
             <a href="#about" class="block py-1 hover:text-wine transition mobile-nav-link">About me</a>
             <a href="#videos" class="block py-1 hover:text-wine transition mobile-nav-link">Videos</a>
             <a href="#photos" class="block py-1 hover:text-wine transition mobile-nav-link">Photos</a>
+            <a href="#viral-reach" class="block py-1 hover:text-wine transition mobile-nav-link">Results</a>
             <a href="#workflow" class="block py-1 hover:text-wine transition mobile-nav-link">Workflow</a>
             <a href="https://vakarebaltauskaite.wixsite.com/baltavakare?utm_source=ig&utm_medium=social&utm_content=link_in_bio" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 py-1 hover:text-wine transition mobile-nav-link">
                 Actor page <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
@@ -214,92 +277,89 @@
             </div>
         </div>
 
-        <!-- HERO VIDEO RĖMELIS -->
+        <!-- HERO VIDEO RĖMELIS (YouTube Lite Facade - greitas krovimas) -->
         <div class="flex-1 flex justify-center">
             <div class="relative group">
                 <div class="iphone-mockup">
                     <div class="iphone-screen rounded-[2rem] shadow-xl">
-                        <iframe
-                            src="https://www.youtube.com/embed/gmBVSV17dn8?autoplay=0&rel=0"
-                            title="Vakarė Balta UGC Showreel"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                        </iframe>
+                        <div class="yt-facade" data-video-id="gmBVSV17dn8" data-title="Vakarė Balta UGC Showreel" role="button" tabindex="0" aria-label="Play Vakarė Balta UGC Showreel">
+                            <img src="https://i.ytimg.com/vi/gmBVSV17dn8/hqdefault.jpg" alt="Vakarė Balta UGC Showreel" fetchpriority="high" decoding="async">
+                            <span class="yt-play-btn" aria-hidden="true"></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- PREKIŲ ŽENKLŲ LOGOTIPŲ TICKER'IS (Dvigubas rinkinys begaliniam ciklui) -->
+    <!-- PREKIŲ ŽENKLŲ LOGOTIPŲ TICKER'IS -->
     <div class="w-full bg-champagne py-6 overflow-hidden border-y border-champagne-dark/40 brand-slider">
         <div class="animate-marquee whitespace-nowrap flex items-center">
             <!-- Pirmas logotipų rinkinys -->
             <div class="flex items-center gap-16 pr-16 shrink-0">
-                <div><img src="images/Vision-express.svg.png" alt="Vision Express" /></div>
-                <div><img src="images/PerlasGo.png" alt="Perlas Go" /></div>
-                <div><img src="images/kilo.healts.png" alt="Kilo Health" /></div>
-                <div><img src="images/Lumene.png" alt="Lumene" /></div>
-                <div><img src="images/air-guru.png" alt="AirGuru" /></div>
-                <div><img src="images/ziede.png" alt="Žiedė" /></div>
-                <div><img src="images/nauja-oda.png" alt="Nauja Oda" /></div>
-                <div><img src="images/Collistar.png" alt="Collistar" /></div>
-                <div><img src="images/moonmart.png.webp" alt="Moonmart" /></div>
-                <div><img src="images/ellips_hair_vit.png" alt="Ellips Hair Vitamins" /></div>
-                <div><img src="images/AstraAi.png" alt="Astra AI" /></div>
-                <div><img src="images/magic.png" alt="Magic" /></div>
-                <div><img src="images/menique.png.webp" alt="Menique" /></div>
-                <div><img src="images/aconitum_logo.png.webp" alt="Aconitum" /></div>
-                <div><img src="images/amortest.png" alt="Amortest" /></div>
-                <div><img src="images/Ausrines-logo-juoda.png.webp" alt="Aušrinės" /></div>
-                <div><img src="images/CITYSHEEP.png.webp" alt="Citysheep" /></div>
-                <div><img src="images/coconut.png.webp" alt="Coconut" /></div>
-                <div><img src="images/herboxa_black.webp" alt="Herboxa" /></div>
-                <div><img src="images/her_surprise.png" alt="Her Surprise" /></div>
-                <div><img src="images/IsaDora.png" alt="IsaDora" /></div>
-                <div><img src="images/kakavos-romanas.png" alt="Kakavos Romanas" /></div>
-                <div><img src="images/kong-stay.png" alt="Kong Stay" /></div>
-                <div><img src="images/kvapnus-papuosalai.jpeg" alt="Kvapnūs Papuošalai" /></div>
-                <div><img src="images/SKINSHOP.png" alt="Skinshop" /></div>
-                <div><img src="images/klipshop.png" alt="Klipshop" /></div>
-                <div><img src="images/mrwoo.png" alt="Mr. Woo" /></div>
-                <div><img src="images/lemuse.png" alt="LeMuse" /></div>
-                <div><img src="images/Sweetroll.png.webp" alt="Sweetroll" /></div>
-                <div><img src="images/wosome.jpg.webp" alt="Wosome" /></div>
+                <div><img src="images/Vision-express.svg.png" alt="Vision Express" loading="lazy" decoding="async" /></div>
+                <div><img src="images/PerlasGo.png" alt="Perlas Go" loading="lazy" decoding="async" /></div>
+                <div><img src="images/kilo.healts.png" alt="Kilo Health" loading="lazy" decoding="async" /></div>
+                <div><img src="images/Lumene.png" alt="Lumene" loading="lazy" decoding="async" /></div>
+                <div><img src="images/air-guru.png" alt="AirGuru" loading="lazy" decoding="async" /></div>
+                <div><img src="images/ziede.png" alt="Žiedė" loading="lazy" decoding="async" /></div>
+                <div><img src="images/nauja-oda.png" alt="Nauja Oda" loading="lazy" decoding="async" /></div>
+                <div><img src="images/Collistar.png" alt="Collistar" loading="lazy" decoding="async" /></div>
+                <div><img src="images/moonmart.png.webp" alt="Moonmart" loading="lazy" decoding="async" /></div>
+                <div><img src="images/ellips_hair_vit.png" alt="Ellips Hair Vitamins" loading="lazy" decoding="async" /></div>
+                <div><img src="images/AstraAi.png" alt="Astra AI" loading="lazy" decoding="async" /></div>
+                <div><img src="images/magic.png" alt="Magic" loading="lazy" decoding="async" /></div>
+                <div><img src="images/menique.png.webp" alt="Menique" loading="lazy" decoding="async" /></div>
+                <div><img src="images/aconitum_logo.png.webp" alt="Aconitum" loading="lazy" decoding="async" /></div>
+                <div><img src="images/amortest.png" alt="Amortest" loading="lazy" decoding="async" /></div>
+                <div><img src="images/Ausrines-logo-juoda.png.webp" alt="Aušrinės" loading="lazy" decoding="async" /></div>
+                <div><img src="images/CITYSHEEP.png.webp" alt="Citysheep" loading="lazy" decoding="async" /></div>
+                <div><img src="images/coconut.png.webp" alt="Coconut" loading="lazy" decoding="async" /></div>
+                <div><img src="images/herboxa_black.webp" alt="Herboxa" loading="lazy" decoding="async" /></div>
+                <div><img src="images/her_surprise.png" alt="Her Surprise" loading="lazy" decoding="async" /></div>
+                <div><img src="images/IsaDora.png" alt="IsaDora" loading="lazy" decoding="async" /></div>
+                <div><img src="images/kakavos-romanas.png" alt="Kakavos Romanas" loading="lazy" decoding="async" /></div>
+                <div><img src="images/kong-stay.png" alt="Kong Stay" loading="lazy" decoding="async" /></div>
+                <div><img src="images/kvapnus-papuosalai.jpeg" alt="Kvapnūs Papuošalai" loading="lazy" decoding="async" /></div>
+                <div><img src="images/SKINSHOP.png" alt="Skinshop" loading="lazy" decoding="async" /></div>
+                <div><img src="images/klipshop.png" alt="Klipshop" loading="lazy" decoding="async" /></div>
+                <div><img src="images/mrwoo.png" alt="Mr. Woo" loading="lazy" decoding="async" /></div>
+                <div><img src="images/lemuse.png" alt="LeMuse" loading="lazy" decoding="async" /></div>
+                <div><img src="images/Sweetroll.png.webp" alt="Sweetroll" loading="lazy" decoding="async" /></div>
+                <div><img src="images/wosome.jpg.webp" alt="Wosome" loading="lazy" decoding="async" /></div>
             </div>
             <!-- Dubliuotas logotipų rinkinys sklandžiam perėjimui -->
             <div class="flex items-center gap-16 pr-16 shrink-0" aria-hidden="true">
-                <div><img src="images/Vision-express.svg.png" alt="" /></div>
-                <div><img src="images/PerlasGo.png" alt="" /></div>
-                <div><img src="images/kilo.healts.png" alt="" /></div>
-                <div><img src="images/Lumene.png" alt="" /></div>
-                <div><img src="images/air-guru.png" alt="" /></div>
-                <div><img src="images/ziede.png" alt="" /></div>
-                <div><img src="images/nauja-oda.png" alt="" /></div>
-                <div><img src="images/Collistar.png" alt="" /></div>
-                <div><img src="images/moonmart.png.webp" alt="" /></div>
-                <div><img src="images/ellips_hair_vit.png" alt="" /></div>
-                <div><img src="images/AstraAi.png" alt="" /></div>
-                <div><img src="images/magic.png" alt="" /></div>
-                <div><img src="images/menique.png.webp" alt="" /></div>
-                <div><img src="images/aconitum_logo.png.webp" alt="" /></div>
-                <div><img src="images/amortest.png" alt="" /></div>
-                <div><img src="images/Ausrines-logo-juoda.png.webp" alt="" /></div>
-                <div><img src="images/CITYSHEEP.png.webp" alt="" /></div>
-                <div><img src="images/coconut.png.webp" alt="" /></div>
-                <div><img src="images/herboxa_black.webp" alt="" /></div>
-                <div><img src="images/her_surprise.png" alt="" /></div>
-                <div><img src="images/IsaDora.png" alt="" /></div>
-                <div><img src="images/kakavos-romanas.png" alt="" /></div>
-                <div><img src="images/kong-stay.png" alt="" /></div>
-                <div><img src="images/kvapnus-papuosalai.jpeg" alt="" /></div>
-                <div><img src="images/SKINSHOP.png" alt="" /></div>
-                <div><img src="images/klipshop.png" alt="" /></div>
-                <div><img src="images/mrwoo.png" alt="" /></div>
-                <div><img src="images/lemuse.png" alt="" /></div>
-                <div><img src="images/Sweetroll.png.webp" alt="" /></div>
-                <div><img src="images/wosome.jpg.webp" alt="" /></div>
+                <div><img src="images/Vision-express.svg.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/PerlasGo.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/kilo.healts.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/Lumene.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/air-guru.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/ziede.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/nauja-oda.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/Collistar.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/moonmart.png.webp" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/ellips_hair_vit.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/AstraAi.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/magic.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/menique.png.webp" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/aconitum_logo.png.webp" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/amortest.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/Ausrines-logo-juoda.png.webp" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/CITYSHEEP.png.webp" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/coconut.png.webp" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/herboxa_black.webp" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/her_surprise.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/IsaDora.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/kakavos-romanas.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/kong-stay.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/kvapnus-papuosalai.jpeg" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/SKINSHOP.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/klipshop.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/mrwoo.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/lemuse.png" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/Sweetroll.png.webp" alt="" loading="lazy" decoding="async" /></div>
+                <div><img src="images/wosome.jpg.webp" alt="" loading="lazy" decoding="async" /></div>
             </div>
         </div>
     </div>
@@ -316,7 +376,7 @@
                 <!-- Kortelė 1 -->
                 <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
                     <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
-                        <img src="images/LithBasCreative-1.jpg" alt="Lithuanian-based creative" class="w-full h-full rounded-3xl object-cover">
+                        <img src="images/LithBasCreative-1.jpg" alt="Lithuanian-based creative" loading="lazy" decoding="async" class="w-full h-full rounded-3xl object-cover">
                     </div>
                     <h4 class="text-lg font-bold text-charcoal">Lithuanian-based creative</h4>
                     <p class="text-sm text-charcoal/70 leading-relaxed">
@@ -327,7 +387,7 @@
                 <!-- Kortelė 2 -->
                 <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
                     <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
-                        <img src="images/ProActor.jpg" alt="Professional Actor, Model & Artist" class="w-full h-full rounded-3xl object-cover">
+                        <img src="images/ProActor.jpg" alt="Professional Actor, Model & Artist" loading="lazy" decoding="async" class="w-full h-full rounded-3xl object-cover">
                     </div>
                     <h4 class="text-lg font-bold text-charcoal">Professional Actor, Model & Artist</h4>
                     <p class="text-sm text-charcoal/70 leading-relaxed">
@@ -338,7 +398,7 @@
                 <!-- Kortelė 3 -->
                 <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
                     <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
-                        <img src="images/face_cry.png" alt="Cinema-quality UGC production team" class="w-full h-full rounded-3xl object-cover">
+                        <img src="images/face_cry.png" alt="Cinema-quality UGC production team" loading="lazy" decoding="async" class="w-full h-full rounded-3xl object-cover">
                     </div>
                     <h4 class="text-lg font-bold text-charcoal">Want your content EXTRA clean?</h4>
                     <p class="text-xs text-charcoal/70 leading-relaxed">
@@ -355,7 +415,7 @@
                 <!-- Kortelė 4 -->
                 <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
                     <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
-                        <img src="images/global.png" alt="Global Reach, Local Roots" class="w-full h-full rounded-3xl object-cover">
+                        <img src="images/global.png" alt="Global Reach, Local Roots" loading="lazy" decoding="async" class="w-full h-full rounded-3xl object-cover">
                     </div>
                     <div class="flex-1 space-y-2">
                         <h4 class="font-bold text-lg text-charcoal">Global Reach, Local Roots</h4>
@@ -369,7 +429,7 @@
                 <!-- Kortelė 5 -->
                 <div class="bg-white p-8 rounded-3xl border border-champagne-dark/50 hover:shadow-md transition space-y-4">
                     <div class="w-full h-56 rounded-3xl bg-champagne flex items-center justify-center text-wine overflow-hidden">
-                        <img src="images/chat.png" alt="5+ Years in Marketing & Video Production" class="w-full h-full rounded-3xl object-cover">
+                        <img src="images/chat.png" alt="5+ Years in Marketing & Video Production" loading="lazy" decoding="async" class="w-full h-full rounded-3xl object-cover">
                     </div>
                     <div class="flex-1 space-y-2">
                         <h4 class="font-bold text-lg text-charcoal">5+ Years in Marketing & Video Production</h4>
@@ -384,7 +444,7 @@
         </div>
     </section>
 
-    <!-- PORTFOLIO / VIDEO TINKLELIS -->
+    <!-- PORTFOLIO / VIDEO TINKLELIS (Click-to-load YouTube Facades) -->
     <section id="videos" class="max-w-6xl mx-auto px-6 py-24">
         <div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
             <h2 class="text-4xl text-wine tracking-widest font-bold font-serif">Video</h2>
@@ -397,14 +457,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/xz_JjoOLrkc?autoplay=0&rel=0"
-                                title="Fashion / Clothing UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="xz_JjoOLrkc" data-title="Fashion / Clothing UGC Video" role="button" tabindex="0" aria-label="Play Fashion / Clothing UGC Video">
+                                <img src="https://i.ytimg.com/vi/xz_JjoOLrkc/hqdefault.jpg" alt="Fashion / Clothing UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -418,14 +474,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/84lpYRwZ-xk?autoplay=0&rel=0"
-                                title="Travel / Hospitality UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="84lpYRwZ-xk" data-title="Travel / Hospitality UGC Video" role="button" tabindex="0" aria-label="Play Travel / Hospitality UGC Video">
+                                <img src="https://i.ytimg.com/vi/84lpYRwZ-xk/hqdefault.jpg" alt="Travel / Hospitality UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -439,14 +491,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/B8rRHuuB2oQ?autoplay=0&rel=0"
-                                title="Wellness / Services UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="B8rRHuuB2oQ" data-title="Wellness / Services UGC Video" role="button" tabindex="0" aria-label="Play Wellness / Services UGC Video">
+                                <img src="https://i.ytimg.com/vi/B8rRHuuB2oQ/hqdefault.jpg" alt="Wellness / Services UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -463,14 +511,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/BmDHSqV2jek?autoplay=0&rel=0"
-                                title="Travel / Hospitality UGC Video 2"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="BmDHSqV2jek" data-title="Travel / Hospitality UGC Video 2" role="button" tabindex="0" aria-label="Play Travel / Hospitality UGC Video 2">
+                                <img src="https://i.ytimg.com/vi/BmDHSqV2jek/hqdefault.jpg" alt="Travel / Hospitality UGC Video 2" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -484,14 +528,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/ObRzNUA3TIU?autoplay=0&rel=0"
-                                title="Beauty / Wellness UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="ObRzNUA3TIU" data-title="Beauty / Wellness UGC Video" role="button" tabindex="0" aria-label="Play Beauty / Wellness UGC Video">
+                                <img src="https://i.ytimg.com/vi/ObRzNUA3TIU/hqdefault.jpg" alt="Beauty / Wellness UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -505,14 +545,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/sT2o0jeTotQ?autoplay=0&rel=0"
-                                title="Beauty UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="sT2o0jeTotQ" data-title="Beauty UGC Video" role="button" tabindex="0" aria-label="Play Beauty UGC Video">
+                                <img src="https://i.ytimg.com/vi/sT2o0jeTotQ/hqdefault.jpg" alt="Beauty UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -529,14 +565,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/lTeHw27YJoM?autoplay=0&rel=0"
-                                title="Premium / EXTRA UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="lTeHw27YJoM" data-title="Premium / EXTRA UGC Video" role="button" tabindex="0" aria-label="Play Premium / EXTRA UGC Video">
+                                <img src="https://i.ytimg.com/vi/lTeHw27YJoM/hqdefault.jpg" alt="Premium / EXTRA UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -550,14 +582,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/_AbeshE1JUc?autoplay=0&rel=0"
-                                title="Premium / EXTRA UGC Video 2"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="_AbeshE1JUc" data-title="Premium / EXTRA UGC Video 2" role="button" tabindex="0" aria-label="Play Premium / EXTRA UGC Video 2">
+                                <img src="https://i.ytimg.com/vi/_AbeshE1JUc/hqdefault.jpg" alt="Premium / EXTRA UGC Video 2" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -571,14 +599,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/I9i0BhdR_KU?autoplay=0&rel=0"
-                                title="Beauty / Wellness UGC Video 2"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="I9i0BhdR_KU" data-title="Beauty / Wellness UGC Video 2" role="button" tabindex="0" aria-label="Play Beauty / Wellness UGC Video 2">
+                                <img src="https://i.ytimg.com/vi/I9i0BhdR_KU/hqdefault.jpg" alt="Beauty / Wellness UGC Video 2" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -595,14 +619,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/GMshJEGoDiY?autoplay=0&rel=0"
-                                title="Fashion / Clothing UGC Video 2"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="GMshJEGoDiY" data-title="Fashion / Clothing UGC Video 2" role="button" tabindex="0" aria-label="Play Fashion / Clothing UGC Video 2">
+                                <img src="https://i.ytimg.com/vi/GMshJEGoDiY/hqdefault.jpg" alt="Fashion / Clothing UGC Video 2" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -616,14 +636,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/Xe3gIb4cEoo?autoplay=0&rel=0"
-                                title="Beauty / Wellness VO UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="Xe3gIb4cEoo" data-title="Beauty / Wellness VO UGC Video" role="button" tabindex="0" aria-label="Play Beauty / Wellness VO UGC Video">
+                                <img src="https://i.ytimg.com/vi/Xe3gIb4cEoo/hqdefault.jpg" alt="Beauty / Wellness VO UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -637,14 +653,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/Bb1bwWqltdo?autoplay=0&rel=0"
-                                title="Beauty / Wellness VO UGC Video 2"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="Bb1bwWqltdo" data-title="Beauty / Wellness VO UGC Video 2" role="button" tabindex="0" aria-label="Play Beauty / Wellness VO UGC Video 2">
+                                <img src="https://i.ytimg.com/vi/Bb1bwWqltdo/hqdefault.jpg" alt="Beauty / Wellness VO UGC Video 2" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -661,14 +673,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/KBq_q7-s2ZQ?autoplay=0&rel=0"
-                                title="Beauty / Wellness VO UGC Video 3"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="KBq_q7-s2ZQ" data-title="Beauty / Wellness VO UGC Video 3" role="button" tabindex="0" aria-label="Play Beauty / Wellness VO UGC Video 3">
+                                <img src="https://i.ytimg.com/vi/KBq_q7-s2ZQ/hqdefault.jpg" alt="Beauty / Wellness VO UGC Video 3" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -682,14 +690,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/1pR8-YORPSQ?autoplay=0&rel=0"
-                                title="Travel / Lifestyle UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="1pR8-YORPSQ" data-title="Travel / Lifestyle UGC Video" role="button" tabindex="0" aria-label="Play Travel / Lifestyle UGC Video">
+                                <img src="https://i.ytimg.com/vi/1pR8-YORPSQ/hqdefault.jpg" alt="Travel / Lifestyle UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -703,14 +707,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/bzIRlIJvx3w?autoplay=0&rel=0"
-                                title="Food UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="bzIRlIJvx3w" data-title="Food UGC Video" role="button" tabindex="0" aria-label="Play Food UGC Video">
+                                <img src="https://i.ytimg.com/vi/bzIRlIJvx3w/hqdefault.jpg" alt="Food UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -727,14 +727,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/KtVPdENv1Uw?autoplay=0&rel=0"
-                                title="Beauty UGC Video 2"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="KtVPdENv1Uw" data-title="Beauty UGC Video 2" role="button" tabindex="0" aria-label="Play Beauty UGC Video 2">
+                                <img src="https://i.ytimg.com/vi/KtVPdENv1Uw/hqdefault.jpg" alt="Beauty UGC Video 2" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -748,14 +744,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/zxlYC8X75C0?autoplay=0&rel=0"
-                                title="Wellness / Lifestyle UGC Video"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="zxlYC8X75C0" data-title="Wellness / Lifestyle UGC Video" role="button" tabindex="0" aria-label="Play Wellness / Lifestyle UGC Video">
+                                <img src="https://i.ytimg.com/vi/zxlYC8X75C0/hqdefault.jpg" alt="Wellness / Lifestyle UGC Video" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -769,14 +761,10 @@
                 <div class="relative w-full aspect-[18/35] bg-black rounded-[2rem] overflow-hidden border-4 border-charcoal shadow-inner">
                     <div class="iphone-mockup">
                         <div class="iphone-screen">
-                            <iframe
-                                src="https://www.youtube.com/embed/qoHsuSNPFAE?autoplay=0&rel=0"
-                                title="Beauty / Wellness UGC Video 3"
-                                loading="lazy"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                            <div class="yt-facade" data-video-id="qoHsuSNPFAE" data-title="Beauty / Wellness UGC Video 3" role="button" tabindex="0" aria-label="Play Beauty / Wellness UGC Video 3">
+                                <img src="https://i.ytimg.com/vi/qoHsuSNPFAE/hqdefault.jpg" alt="Beauty / Wellness UGC Video 3" loading="lazy" decoding="async">
+                                <span class="yt-play-btn" aria-hidden="true"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -799,24 +787,23 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
                 <!-- 1 nuotrauka -->
                 <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
-                    <img src="images/IMG_1.jpg" alt="Beauty UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <img src="images/IMG_1.jpg" alt="Beauty UGC Photo" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 </div>
                 <!-- 2 nuotrauka -->
                 <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
-                    <img src="images/IMG_53.PNG" alt="Lifestyle UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <img src="images/IMG_53.PNG" alt="Lifestyle UGC Photo" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 </div>
                 <!-- 3 nuotrauka -->
                 <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
-                    <img src="images/IMG_1585.PNG" alt="Tech UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <img src="images/IMG_1585.PNG" alt="Tech UGC Photo" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 </div>
                 <!-- 4 nuotrauka -->
                 <div class="relative aspect-square rounded-2xl overflow-hidden border border-champagne-dark shadow-sm group">
-                    <img src="images/IMG_4992.jpg" alt="Wellness UGC Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <img src="images/IMG_4992.jpg" alt="Wellness UGC Photo" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                 </div>
             </div>
         </div>
     </section>
-
 
     <!-- VIRAL REACH - HIGH-PERFORMING CONTENT KARUSELĖ -->
     <section id="viral-reach" class="bg-champagne-light py-24 border-t border-champagne-dark/30">
@@ -852,56 +839,56 @@
                     <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
                         <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
                             <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
-                                <img src="images/IMG_4151.jpg" alt="Viral Reach Content Performance 1" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                                <img src="images/IMG_4151.jpg" alt="Viral Reach Content Performance 1" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
                     </div>
                     <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
                         <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
                             <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
-                                <img src="images/IMG_4152.jpg" alt="Viral Reach Content Performance 2" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                                <img src="images/IMG_4152.jpg" alt="Viral Reach Content Performance 2" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
                     </div>
                     <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
                         <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
                             <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
-                                <img src="images/IMG_4153.jpg" alt="Viral Reach Content Performance 3" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                                <img src="images/IMG_4153.jpg" alt="Viral Reach Content Performance 3" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
                     </div>
                     <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
                         <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
                             <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
-                                <img src="images/IMG_4156.jpg" alt="Viral Reach Content Performance 4" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                                <img src="images/IMG_4156.jpg" alt="Viral Reach Content Performance 4" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
                     </div>
                     <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
                         <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
                             <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
-                                <img src="images/IMG_4157.jpg" alt="Viral Reach Content Performance 5" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                                <img src="images/IMG_4157.jpg" alt="Viral Reach Content Performance 5" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
                     </div>
                     <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
                         <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
                             <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
-                                <img src="images/IMG_4158.jpg" alt="Viral Reach Content Performance 6" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                                <img src="images/IMG_4158.jpg" alt="Viral Reach Content Performance 6" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
                     </div>
                     <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
                         <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
                             <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
-                                <img src="images/IMG_4159.jpg" alt="Viral Reach Content Performance 7" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                                <img src="images/IMG_4159.jpg" alt="Viral Reach Content Performance 7" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
                     </div>
                     <div class="snap-start shrink-0 w-[230px] sm:w-[250px] md:w-[260px]">
                         <div class="bg-white p-3 rounded-3xl border border-champagne-dark/60 shadow-sm hover:shadow-md transition group">
                             <div class="relative aspect-[9/19.5] rounded-2xl overflow-hidden bg-champagne-dark/30">
-                                <img src="images/IMG_4161.jpg" alt="Viral Reach Content Performance 8" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
+                                <img src="images/IMG_4161.jpg" alt="Viral Reach Content Performance 8" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-300">
                             </div>
                         </div>
                     </div>
@@ -980,7 +967,7 @@
             <!-- Iliustracija -->
             <div class="md:col-span-2 flex justify-center">
                 <div class="w-full h-80 rounded-3xl overflow-hidden border border-champagne-dark bg-champagne-dark relative">
-                    <img id="workflow-img" src="images/workflow.jpg" alt="Workflow" class="w-full h-full object-cover transition-opacity duration-300">
+                    <img id="workflow-img" src="images/workflow.jpg" alt="Workflow" loading="lazy" decoding="async" class="w-full h-full object-cover transition-opacity duration-300">
                 </div>
             </div>
         </div>
@@ -1143,7 +1130,33 @@
 
     <!-- INTERAKTYVIŲ DETALIŲ JAVASCRIPT LOGIKA -->
     <script>
-        // Mobilaus meniu perjungimas
+        // 1. YouTube Click-to-Play Lite Facade (įkelia iframe tik paspaudus)
+        function activateYouTubeFacade(el) {
+            const videoId = el.getAttribute('data-video-id');
+            const title = el.getAttribute('data-title') || 'YouTube Video';
+            if (!videoId) return;
+
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            iframe.title = title;
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.className = 'w-full h-full border-0';
+
+            el.replaceWith(iframe);
+        }
+
+        document.querySelectorAll('.yt-facade').forEach(facade => {
+            facade.addEventListener('click', () => activateYouTubeFacade(facade));
+            facade.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    activateYouTubeFacade(facade);
+                }
+            });
+        });
+
+        // 2. Mobilaus meniu perjungimas
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileMenuIcon = document.getElementById('mobile-menu-icon');
@@ -1172,7 +1185,60 @@
             });
         }
 
-        // D.U.K. akordeono logika
+        // 3. Viral Reach karuselės logika
+        const viralCarousel = document.getElementById('viral-carousel');
+        const viralDots = document.querySelectorAll('.viral-dot');
+
+        function updateViralDots() {
+            if (!viralCarousel || !viralDots.length) return;
+            const firstItem = viralCarousel.firstElementChild;
+            if (!firstItem) return;
+            const step = firstItem.offsetWidth + 24;
+            const maxScroll = viralCarousel.scrollWidth - viralCarousel.clientWidth;
+            let activeIndex = Math.round(viralCarousel.scrollLeft / step);
+            if (viralCarousel.scrollLeft >= maxScroll - 8) {
+                activeIndex = viralDots.length - 1;
+            }
+            activeIndex = Math.max(0, Math.min(activeIndex, viralDots.length - 1));
+
+            viralDots.forEach((dot, i) => {
+                if (i === activeIndex) {
+                    dot.classList.remove('bg-champagne-dark', 'w-2');
+                    dot.classList.add('bg-wine', 'w-6');
+                } else {
+                    dot.classList.remove('bg-wine', 'w-6');
+                    dot.classList.add('bg-champagne-dark', 'w-2');
+                }
+            });
+        }
+
+        function moveViralCarousel(direction) {
+            if (!viralCarousel) return;
+            const firstItem = viralCarousel.firstElementChild;
+            const step = firstItem ? firstItem.offsetWidth + 24 : 280;
+            const maxScroll = viralCarousel.scrollWidth - viralCarousel.clientWidth;
+
+            if (direction > 0 && viralCarousel.scrollLeft >= maxScroll - 8) {
+                viralCarousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else if (direction < 0 && viralCarousel.scrollLeft <= 8) {
+                viralCarousel.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            } else {
+                viralCarousel.scrollBy({ left: direction * step, behavior: 'smooth' });
+            }
+        }
+
+        function scrollViralTo(index) {
+            if (!viralCarousel) return;
+            const firstItem = viralCarousel.firstElementChild;
+            const step = firstItem ? firstItem.offsetWidth + 24 : 280;
+            viralCarousel.scrollTo({ left: index * step, behavior: 'smooth' });
+        }
+
+        if (viralCarousel) {
+            viralCarousel.addEventListener('scroll', updateViralDots, { passive: true });
+        }
+
+        // 4. D.U.K. akordeono logika
         function toggleFAQ(button) {
             const content = button.nextElementSibling;
             const icon = button.querySelector('.faq-icon');
@@ -1190,17 +1256,10 @@
             }
         }
 
-        // Workflow akordeono logika
+        // 5. Workflow akordeono logika
         function toggleAccordion(button, step) {
             const content = button.nextElementSibling;
             const icon = button.querySelector('.accordion-icon');
-            const img = document.getElementById('workflow-img');
-
-            const images = {
-                'step1-img': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80',
-                'step2-img': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&q=80',
-                'step3-img': 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=80'
-            };
 
             if (content.style.maxHeight && content.style.maxHeight !== '0px') {
                 content.style.maxHeight = '0px';
@@ -1209,7 +1268,6 @@
                 icon.classList.add('fa-plus');
                 button.classList.remove('bg-champagne/20');
             } else {
-                // Uždaryti kitus workflow akordeonus
                 const container = button.closest('.space-y-4');
                 const allAccordions = container.querySelectorAll('.accordion-content');
                 const allIcons = container.querySelectorAll('.accordion-icon');
@@ -1219,21 +1277,11 @@
                 allIcons.forEach(ic => { ic.classList.remove('fa-minus'); ic.classList.add('fa-plus'); });
                 allButtons.forEach(btn => btn.classList.remove('bg-champagne/20'));
 
-                // Atidaryti aktyvų
                 content.style.maxHeight = content.scrollHeight + 'px';
                 content.style.opacity = '1';
                 icon.classList.remove('fa-plus');
                 icon.classList.add('fa-minus');
                 button.classList.add('bg-champagne/20');
-
-                // Atkomentuokite žemiau esančias eilutes, jei norite, kad pasikeistų dešinėje esanti nuotrauka:
-                // if (img && images[step]) {
-                //     img.style.opacity = '0';
-                //     setTimeout(() => {
-                //         img.src = images[step];
-                //         img.style.opacity = '1';
-                //     }, 150);
-                // }
             }
         }
     </script>
